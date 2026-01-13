@@ -1,0 +1,41 @@
+.footerWidgets {
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 30px;
+
+  @media (min-width: 400px) {
+    background-image: url("/images/ready-to-start-bg-mob.webp");
+  }
+
+  @media (min-width: 1024px) {
+    background-image: url("/images/ready-to-start-bg-desk.webp");
+  }
+}
+
+.winText {
+  color: #521887;
+  line-height: 40px;
+  text-align: center;
+  font-size: 28px;
+  font-style: normal;
+  padding: 0 40px 0 40px;
+}
+
+.buttonCTA {
+  background: linear-gradient(182deg, #b976ec 1.74%, #9d69f6 120.39%);
+  padding: 10px 50px;
+  border-radius: 33px;
+  white-space: nowrap;
+  font-size: 20px;
+  color: white;
+  box-shadow: 1px 2px 0 0 #693683;
+  margin-top: 10px;
+  cursor: pointer;
+  font-family: var(--font-quicksand);
+  font-weight: 700;
+}

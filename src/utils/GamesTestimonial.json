@@ -1,0 +1,182 @@
+[
+  {
+    "id": 1,
+    "text": "I love playing Solitaire Cube — it’s relaxing and I’ve actually won some cash prizes!",
+    "author": "Emily R., New York",
+    "rating": 5
+  },
+  {
+    "id": 2,
+    "text": "Bubble Shooter on Skillz is fun, but sometimes I wait too long for a match.",
+    "author": "John M., California",
+    "rating": 4
+  },
+  {
+    "id": 3,
+    "text": "Dominoes Gold has become my go-to game for winding down — graphics are great and challenges are fair.",
+    "author": "Lisa K., Texas",
+    "rating": 5
+  },
+  {
+    "id": 4,
+    "text": "Trivia Clash is good, but some questions feel too easy. Still, I’ve won a few tournaments!",
+    "author": "Marcus W., Florida",
+    "rating": 4
+  },
+  {
+    "id": 5,
+    "text": "Blackout Bingo is exciting! I like competing for real cash, though sometimes connection lags.",
+    "author": "Sophia B., Illinois",
+    "rating": 4
+  },
+  {
+    "id": 6,
+    "text": "Matching Pairs is cute and simple — perfect for short breaks during my day.",
+    "author": "Kevin L., Ohio",
+    "rating": 5
+  },
+  {
+    "id": 7,
+    "text": "Yahtzee Cash is nostalgic and surprisingly competitive with the leaderboard system.",
+    "author": "Rachel S., Georgia",
+    "rating": 5
+  },
+  {
+    "id": 8,
+    "text": "I tried Word Swipe on Skillz, but the ads disrupt the flow — otherwise, solid gameplay.",
+    "author": "Trevor G., Washington",
+    "rating": 3
+  },
+  {
+    "id": 9,
+    "text": "Tiles Match is fun and fast-paced—great if you want something quick.",
+    "author": "Angela D., Colorado",
+    "rating": 4
+  },
+  {
+    "id": 10,
+    "text": "Trio Clash has awesome graphics and the tournaments are intense. Highly recommend!",
+    "author": "David H., Nevada",
+    "rating": 5
+  },
+  {
+    "id": 11,
+    "text": "Poker Solitaire is a bit tricky for newbies, but once you get going it’s really addicting.",
+    "author": "Morgan J., Arizona",
+    "rating": 4
+  },
+  {
+    "id": 12,
+    " text": "Chess Clash is smart and challenging. I wish more time-limited events were available.",
+    "author": "Tyler P., Michigan",
+    "rating": 4
+  },
+  {
+    "id": 13,
+    "text": "Quiz Battle is great for testing your knowledge across topics. Love the mix of categories.",
+    "author": "Megan F., Pennsylvania",
+    "rating": 5
+  },
+  {
+    "id": 14,
+    "text": "Speed Sudoku is awesome — clean UI and good puzzles. My only gripe is auto-save doesn’t always work.",
+    "author": "Brian C., Virginia",
+    "rating": 4
+  },
+  {
+    "id": 15,
+    "text": "Checkers Pro has handcrafted animations and smooth gameplay. The cash reward is small but fair.",
+    "author": "Jasmine T., Louisiana",
+    "rating": 4
+  },
+  {
+    "id": 16,
+    "text": "I enjoy playing Quiz Pop more than expected. The community is nice and the matches are random enough.",
+    "author": "Samuel E., North Carolina",
+    "rating": 5
+  },
+  {
+    "id": 17,
+    "text": "Mahjong Garden is relaxing, though some tiles are hard to tap on smaller phones.",
+    "author": "Patricia Z., Oregon",
+    "rating": 4
+  },
+  {
+    "id": 18,
+    "text": "Golf Clash on Skillz is decent, but latency issues sometimes mess up my shots.",
+    "author": "Luis N., New Jersey",
+    "rating": 3
+  },
+  {
+    "id": 19,
+    "text": "Fruit Match is a sweet time killer! Great art style and easy to pick up.",
+    "author": "Rachel M., Washington D.C.",
+    "rating": 5
+  },
+  {
+    "id": 20,
+    "text": "I like the variety of mini-games, especially the puzzle ones. Keeps me coming back each day.",
+    "author": "Michael B., Ohio",
+    "rating": 5
+  },
+  {
+    "id": 21,
+    "text": "Blast Blocks is fun, but sometimes the competition gets super tough as you level up.",
+    "author": "Olivia C., Colorado",
+    "rating": 4
+  },
+  {
+    "id": 22,
+    "text": "Crossword Duel combines word puzzles with competition. Love that mix!",
+    "author": "Ethan S., Massachusetts",
+    "rating": 5
+  },
+  {
+    "id": 23,
+    "text": "Jewels Quest is visually pleasing, but I’ve lost a few rounds due to lag – hope they optimize it.",
+    "author": "Chloe P., Minnesota",
+    "rating": 4
+  },
+  {
+    "id": 24,
+    "text": "Tile Towers is super addictive. Wish there were more free entries per day.",
+    "author": "Adrian O., Nevada",
+    "rating": 5
+  },
+  {
+    "id": 25,
+    "text": "Arcade Dash is fast and fun for quick sessions. Great when I only have a few minutes.",
+    "author": "Sierra R., Oregon",
+    "rating": 4
+  },
+  {
+    "id": 26,
+    "text": "Memory Mix is perfect when commuting. Simple mechanics but surprisingly challenging.",
+    "author": "Derek P., New York",
+    "rating": 5
+  },
+  {
+    "id": 27,
+    "text": "Poker Duel is thrilling. Love going head-to-head with real players and hoping my luck holds up.",
+    "author": "Carlos V., Florida",
+    "rating": 5
+  },
+  {
+    "id": 28,
+    "text": "Quiz Showdown has fun themes. Some questions repeat a lot but overall entertaining.",
+    "author": "Bethany L., Georgia",
+    "rating": 4
+  },
+  {
+    "id": 29,
+    "text": "Stack Tower is a cool puzzle that helps me relax yet still compete.",
+    "author": "Ian T., Oregon",
+    "rating": 5
+  },
+  {
+    "id": 30,
+    "text": "Bubble Burst gets a little laggy on slower phones, but it’s still one of my top choices.",
+    "author": "Hannah M., Arizona",
+    "rating": 4
+  }
+]

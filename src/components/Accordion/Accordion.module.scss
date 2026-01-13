@@ -1,0 +1,134 @@
+.wrapper {
+  display: flex;
+  flex-direction: column; // mobile default
+  gap: 2rem;
+  background: #cfe8ff; // same bg as screenshot
+  padding: 1rem 2rem 1rem 4rem;
+  // padding-left: 4rem;
+  // padding-right: 2rem;
+  border-radius: 12px;
+
+  @media (min-width: 1024px) {
+    flex-direction: row; // side by side in desktop
+    align-items: flex-start;
+    justify-content: center;
+  }
+}
+
+.items {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding-right: 3rem;
+}
+
+.item {
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.accordionButton {
+  width: 100%;
+  padding: 1rem;
+  border: none;
+  background: none;
+  font-size: 1rem;
+  font-weight: 600;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+
+  &:hover {
+    background: #f7f7f7;
+  }
+}
+
+.label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #521887;
+  font-size: 18px;
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+}
+
+.accordionIcon {
+  transition: transform 0.3s ease;
+
+  &.open {
+    transform: rotate(180deg);
+  }
+}
+
+.accordionContent {
+  padding: 0 1rem 1rem;
+  background: #fafafa;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #521887;
+}
+
+/* Left / Top Section */
+.leftSection {
+  flex: 1;
+  text-align: center;
+
+  @media (min-width: 1024px) {
+    text-align: left;
+    padding-left: 2rem;
+  }
+}
+
+.poweredBy {
+  font-size: 14px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  justify-content: center;
+  color: purple;
+
+  @media (min-width: 1024px) {
+    justify-content: flex-start;
+    font-size: 16px;
+  }
+}
+
+.skillzLogo {
+  height: 20px;
+}
+
+.playText {
+  font-size: 24px;
+  line-height: 32px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 8px;
+  color: purple;
+  background: linear-gradient(180deg, #38006b -9.62%, #7b2499 106.25%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text; /* for Firefox */
+  color: transparent;
+
+  @media (min-width: 600px) {
+    font-size: 32px;
+    line-height: 40px;
+  }
+
+  @media (min-width: 1024px) {
+    font-size: 60px;
+    line-height: 68px;
+    margin: 0 0 12px 0;
+    text-align: left;
+    max-width: 488px;
+  }
+}
