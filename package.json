@@ -10,9 +10,12 @@
     "build:s3": "next build && next export"
   },
   "dependencies": {
+    "cors": "^2.8.6",
     "crypto": "^1.0.1",
     "dotenv": "^17.2.2",
+    "express": "^5.2.1",
     "next": "15.5.3",
+    "node-fetch": "^3.3.2",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "sass": "^1.92.1",

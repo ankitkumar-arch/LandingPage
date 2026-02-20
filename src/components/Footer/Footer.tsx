@@ -6,41 +6,41 @@ const socialIcons = [
   {
     src: "/images/social-fb.webp",
     alt: "Facebook",
-    href: "https://facebook.com/SkillzGames?utm_campaign=paid-media&utm_source=skillz",
+    href: "https://facebook.com/SkillzGames?utm_campaign=SSK_skillz_web&utm_source=skillz_web",
   },
   {
     src: "/images/social-twit.webp",
     alt: "Twitter",
-    href: "https://x.com/skillz?utm_campaign=paid-media&utm_source=skillz",
+    href: "https://x.com/skillz?utm_campaign=SSK_skillz_web&utm_source=skillz_web",
   },
   {
     src: "/images/social-ig.webp",
     alt: "Instagram",
-    href: "https://instagram.com/skillz?utm_campaign=paid-media&utm_source=skillz",
+    href: "https://instagram.com/skillz?utm_campaign=SSK_skillz_web&utm_source=skillz_web",
   },
   {
     src: "/images/skillz-icon.webp",
     alt: "Skillz",
-    href: "https://www.skillz.com/news/?utm_campaign=paid-media&utm_source=skillz",
+    href: "https://www.skillz.com/news/?utm_campaign=SSK_skillz_web&utm_source=skillz_web",
   },
 ];
 
 const PlayersListItems = [
   {
     text: "Get the Skillz App",
-    href: "https://games.skillz.com/skillzapp/?utm_campaign=paid-media&utm_source=skillz",
+    href: "https://games.skillz.com/skillzapp/?utm_campaign=SSK_skillz_web&utm_source=skillz_web",
   },
   {
     text: "FAQs",
-    href: "https://skillz.zendesk.com/hc/en-us/categories/200051333/?utm_campaign=paid-media&utm_source=skillz",
+    href: "https://skillz.zendesk.com/hc/en-us/categories/200051333/?utm_campaign=SSK_skillz_web&utm_source=skillz_web",
   },
   {
     text: "Live Agent Support",
-    href: "https://support.skillz.com/hc/en-us/?utm_campaign=paid-media&utm_source=skillz",
+    href: "https://support.skillz.com/hc/en-us/?utm_campaign=SSK_skillz_web&utm_source=skillz_web",
   },
   {
     text: "Documentation",
-    href: "https://docs.skillz.com/docs/welcome/?utm_campaign=paid-media&utm_source=skillz",
+    href: "https://docs.skillz.com/docs/welcome/?utm_campaign=SSK_skillz_web&utm_source=skillz_web",
   },
   { text: "Developers", href: "#" },
 ];
@@ -48,23 +48,23 @@ const PlayersListItems = [
 const companyListItems = [
   {
     text: "About Us",
-    href: "https://www.skillz.com/about-us/?utm_campaign=paid-media&utm_source=skillz",
+    href: "https://www.skillz.com/about-us/?utm_campaign=SSK_skillz_web&utm_source=skillz_web",
   },
   {
     text: "Careers",
-    href: "https://www.skillz.com/careers/?utm_campaign=paid-media&utm_source=skillz",
+    href: "https://www.skillz.com/careers/?utm_campaign=SSK_skillz_web&utm_source=skillz_web",
   },
   {
     text: "Legal",
-    href: "https://www.skillz.com/legal/?utm_campaign=paid-media&utm_source=skillz",
+    href: "https://www.skillz.com/legal/?utm_campaign=SSK_skillz_web&utm_source=skillz_web",
   },
   {
     text: "Privacy",
-    href: "https://www.skillz.com/privacy-policy/?utm_campaign=paid-media&utm_source=skillz",
+    href: "https://www.skillz.com/privacy-policy/?utm_campaign=SSK_skillz_web&utm_source=skillz_web",
   },
   {
     text: "Contact Us",
-    href: "https://www.skillz.com/contact-us/?utm_campaign=paid-media&utm_source=skillz",
+    href: "https://www.skillz.com/contact-us/?utm_campaign=SSK_skillz_web&utm_source=skillz_web",
   },
 ];
 

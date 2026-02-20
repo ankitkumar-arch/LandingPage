@@ -1,0 +1,19 @@
+.container {
+  justify-content: center;
+  padding-left: 32px;
+  display: flex;
+  font-family: "Open Sans", sans-serif;
+}
+
+.items {
+  justify-content: flex-end;
+  margin-bottom: 14px;
+  width: 100%;
+  grid-column-gap: 8px;
+  object-fit: fill;
+  flex: 0 auto;
+  align-items: center;
+  margin-bottom: 24px;
+  display: flex;
+  overflow: visible;
+}

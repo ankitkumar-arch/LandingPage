@@ -7,235 +7,322 @@
   position: relative;
   width: 100%;
   height: auto;
-
-  @media (min-width: 768px) {
-    height: auto;
-  }
 }
 
 .heroImageTop {
   width: 100%;
-  height: auto;
-  object-fit: cover;
-  object-position: center;
-  display: block;
+  min-height: 520px; /* IMPORTANT — gives hero height */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: brightness(1.15) contrast(1.25) saturate(1.2);
 }
 
-.heroImageBottom {
-  width: 100%;
-  height: auto;
-  object-fit: cover;
-  object-position: center;
-  display: block;
+@media (max-width: 768px) {
+  .heroImageTop {
+    min-height: 470px;
+  }
 }
 
-.overlayContent {
+.overlayCenter {
   position: absolute;
-  top: 10%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 90%;
-  max-width: 1200px;
+  top: 72%;
+  left: 63%;
+  transform: translate(-50%, -50%); /* Center perfectly */
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
-  z-index: 2;
-
-  @media (min-width: 768px) {
-    flex-direction: row;
-    align-items: flex-start;
-    justify-content: space-between;
-  }
-}
-
-.leftContent {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-
-  @media (min-width: 768px) {
-    align-items: flex-start;
-    text-align: left;
-  }
-}
-
-.bbImage {
-  // width: 150px;
-  // height: auto;
-  z-index: 2;
-
-  @media (min-width: 768px) {
-    width: 200px;
-    order: 2;
-  }
-  @media (min-width: 1024px) {
-    width: 446px;
-    height: 246px;
-    margin-right: 50px;
-  }
-}
-
-.heroText {
-  color: purple;
-  font-size: 34px;
-  font-family: var(--font-passion-one);
-  font-weight: bold;
-  line-height: 1.2;
-  white-space: nowrap;
-  margin-bottom: 20px;
-  background: linear-gradient(180deg, #38006b -9.62%, #7b2499 106.25%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text; /* for Firefox */
-  color: transparent;
-
-  @media (min-width: 768px) {
-    font-size: 40px;
-  }
-}
-
-.bbStatsImage {
-  width: 100%;
-  max-width: 300px;
-  height: auto;
-  z-index: 2;
-}
-
-.buttonCTA {
-  background: linear-gradient(182deg, #b976ec 1.74%, #9d69f6 120.39%);
-  padding: 10px 50px;
-  border-radius: 33px;
-  white-space: nowrap;
-  font-size: 20px;
-  color: white;
-  box-shadow: 1px 2px 0 0 #693683;
-  margin-top: 40px;
-  cursor: pointer;
-  font-family: var(--font-quicksand);
-  font-weight: 700;
-}
-
-.phoneIcon {
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  padding: 10px 20px;
-
-  @media (min-width: 768px) {
-    margin-top: 10px;
-  }
-}
-
-.phoneIconImage {
-  width: 20px;
-  height: 20px;
-}
-
-.iconText {
-  color: #521887;
-  font-size: 16px;
-  font-weight: 500;
-  font-family: var(--font-quicksand);
-}
-
-.featuresBox {
-  background-color: #f3f0ff;
-  border: 1px solid #d3c5f8;
-  border-radius: 12px;
-  padding: 20px;
-  width: 100%;
-  max-width: 350px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  // margin-top: -30px;
-
-  @media (min-width: 768px) {
-    max-width: 400px;
-    margin-top: 20px;
-  }
-
-  .featureItem {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-
-    p {
-      font-size: 16px;
-      color: #4a4a4a;
-      margin: 0;
-
-      strong {
-        color: #6a1b9a;
-      }
-    }
-  }
-
-  .featureIcon {
-    width: 24px;
-    height: 24px;
-  }
-}
-
-.gameIcons {
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
   justify-content: center;
+  gap: 1.5rem;
+  z-index: 2;
 
-  @media (min-width: 768px) {
-    justify-content: start;
+  @media (max-width: 800px) {
+    top: 50%;
+  left: 63%;
+  transform: translate(-50%, -50%); /* Center perfectly */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  z-index: 2;
   }
 }
 
-.gameIconImage {
-  width: 96px;
-  height: 208px;
+.qrContainer {
+  position: absolute;
+  right: 0%;
+  bottom: -1%;
+  z-index: 3;
+  text-align: center;
+}
+
+.qrContainer p {
+  color: white;
+  font-size: 0.8rem;
+  margin-top: 8px;
+}
+
+/* Optional overlay tint for readability */
+.topSection::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.1));
+  z-index: 1;
+}
+
+/* Responsive tweaks */
+@media (max-width: 768px) {
+  .topSection {
+    height: auto;
+  }
+
+  .overlayCenter {
+    top: 103%;
+    gap: 1rem;
+  }
+
+  /* -------------------------------------------------
+   📱 Mobile layout for hero section (≤768 px)
+   ------------------------------------------------- */
+@media (max-width: 768px) {
+  .topSection {
+    // position: relative;
+    height: auto;              /* let image height define section */
+    // overflow: hidden;
+  }
+
+  .heroImageTop {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* Move Play Now + store buttons to the bottom of the hero image */
+  .overlayCenter {
+    position: absolute;
+    top: 98%;             /* distance from bottom edge of image */
+    left: 50%;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;  
+    
+    @media(min-width: 510px) {
+      top: 90%;
+    }              /* ensure it stays above image */
+  }
+
+  /* Slightly smaller button & balanced spacing */
+  .overlayCenter .buttonCTA {
+    font-size: 12px;
+    padding: 12px 0;
+    width: 50%;
+    border-width: 1px;
+    border-radius: 8px;
+  }
+
+  /* Keep store buttons just below Play Now */
+ .overlayCenter .phoneLinksContainer {
+    margin-top: -1.5rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: nowrap;           /* no wrapping */
+    width: 100%;
+  }
+
+  /* ✅ Target the nested wrappers created by Next.js <Image> */
+  .overlayCenter .phoneLinksContainer a,
+  .overlayCenter .phoneLinksContainer span {
+    display: flex !important;     /* make every wrapper a flex box */
+    justify-content: center;
+    align-items: center;
+    flex: 0 0 auto;               /* prevent shrinking */
+    white-space: nowrap;          /* ensure no line break */
+  }
+
+  .overlayCenter .phoneLinksContainer img,
+  .overlayCenter .storeImage,
+  .overlayCenter .androidStoreImage {
+    max-width: 140px;
+    height: auto;
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  /* Hide QR container on mobile (safety) */
+  .qrContainer {
+    display: none !important;
+  }
+}
+
+.overlayCenter .phoneLinksContainer img,
+.overlayCenter .StoreImage,
+.overlayCenter .androidStoreImage {
+  height: 48px;           /* ✅ force same height */
+  width: auto;            /* keeps aspect ratio correct */
+  object-fit: contain;    /* prevent distortion */
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* Extra-small phones (≤480 px) */
+@media (max-width: 480px) {
+  .overlayCenter {
+    bottom: 4%;
+    max-width: 340px;
+    margin-top: -18%;
+  }
+  .overlayCenter .phoneLinksContainer img,
+  .overlayCenter .StoreImage,
+  .overlayCenter .androidStoreImage {
+    height: 40px; /* smaller badges on tiny devices */
+  }
+
+}
+
+
+  .qrContainer {
+    right: 3%;
+    bottom: 3%;
+    transform: scale(0.8);
+  }
 }
 
 .bottomSection {
   position: relative;
   width: 100%;
-  height: auto;
-
-  //   @media (min-width: 768px) {
-  //     height: auto;
-  //   }
+  background: linear-gradient(180deg, #5917A0, #740D71);
+  display: flex;
+  justify-content: center;
+  box-sizing: border-box;
+  
+  @media(min-width: 1024px) {
+    padding: 50px 0 120px 0; /* space above & below */
+  }
 }
 
-.bottomRightContent {
+.overlayBottomContent {
+  width: 90%;
+  max-width: 1200px;
+  text-align: center;
+
   display: flex;
-  flex-direction: column;
-  gap: 20px;
+  flex-direction: column; /* stack heading above cards */
   align-items: center;
-
-  @media (min-width: 768px) {
-    flex-direction: row;
-    align-items: flex-start;
-  }
 }
 
-.bbPlayNowImage {
-  width: 235px;
-  height: auto;
-}
-.cashPrizesImage {
-  width: 100%;
-  max-width: 300px;
-  object-fit: contain;
-  height: auto;
+.bottomText {
+  color: yellow;
+  font-size: 42px;
+  font-weight: 800;
+  padding-bottom: 80px; /* space between heading and cards */
+  text-transform: uppercase;
+  font-style: italic;
+  font-family: var(--font-open-sans);
 }
 
-.playingIcons {
+/* Card container */
+.cardsWrapper {
   display: flex;
-  flex-direction: column;
-  gap: 5px;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 60px;
+  flex-wrap: wrap; /* allows wrapping on smaller screens */
+}
 
-  @media (min-width: 768px) {
-    flex-direction: column;
-    margin-top: -10px;
+/* Individual card */
+.card {
+  position: relative;
+  width: 240px;
+  height: 180px;
+  background-color: #7d24dd;
+  border-radius: 23px;
+  padding-top: 40px;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* The overlapping image */
+.cardImage {
+  position: absolute;
+  top: -65px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 169px;
+  height: 161px;
+  object-fit: contain;
+}
+
+/* Text inside card */
+.cardText {
+  color: white;
+  font-size: 36px;
+  font-weight: 800;
+  margin-top: 60px;
+  margin-bottom: 4px;
+  line-height: 1.1;
+  font-family: var(--font-open-sans);
+}
+
+.cardText1 {
+  color: darkgray;
+  font-size: 21px;
+  font-weight: 600;
+  margin: 0;
+  line-height: 1.1;
+  font-family: var(--font-open-sans);
+}
+
+/* ---------------------------
+   ✅ RESPONSIVE DESIGN
+   --------------------------- */
+
+/* Tablet screens (<= 900px) */
+@media (max-width: 768px) {
+  .cardsWrapper {
+    gap: 30px;
   }
+
+  .card {
+    width: 141px; /* roughly 2 per row */
+    height: 90px;
+    margin-bottom: 10%;
+  }
+
+  .cardImage {
+    width: 140px;
+    height: 130px;
+    top: -55px;
+  }
+
+  .cardText {
+    font-size: 28px;
+    margin-top: 20px;
+  }
+
+  .cardText1 {
+    font-size: 18px;
+  }
+}
+
+
+
+.heroFallback {
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
+  /* or solid color */
+  /* background-color: #1e3c72; */
+
+  min-height: 500px; /* match your hero height */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

@@ -1,0 +1,155 @@
+// import fs from "fs";
+// import path from "path";
+// import { notFound } from "next/navigation";
+// import Footer from "@/components/Footer/Footer";
+// import FooterWidgets from "@/components/FooterWidgets/FooterWidgets";
+
+// type Props = {
+//   params: { slug: string };
+// };
+
+// /**
+//  * ✅ REQUIRED for `output: export`
+//  * This tells Next.js which pages to generate
+//  */
+// export async function generateStaticParams() {
+//   const dir = path.join(process.cwd(), "data/games");
+
+//   if (!fs.existsSync(dir)) {
+//     return [];
+//   }
+
+//   const files = fs.readdirSync(dir);
+
+//   return files
+//     .filter(file => file.endsWith(".json"))
+//     .map(file => ({
+//       slug: file.replace(".json", "")
+//     }));
+// }
+
+// export default function GamePage({ params }: Props) {
+//   const filePath = path.join(
+//     process.cwd(),
+//     "data/games",
+//     `${params.slug}.json`
+//   );
+
+//   if (!fs.existsSync(filePath)) {
+//     notFound();
+//   }
+
+//   const game = JSON.parse(
+//     fs.readFileSync(filePath, "utf-8")
+//   );
+
+//   return (
+//     <div style={{ padding: 0 }}>
+//       <h1>{game.gameName}</h1>
+//       <img src={game.qrImage} width={150} />
+//       {/* <p>{game.appStore.description}</p> */}
+//       <FooterWidgets />
+//         <Footer />
+//     </div>
+//   );
+// }
+
+import fs from "fs";
+import path from "path";
+import { notFound } from "next/navigation";
+
+import styles from "@/styles/page.module.css";
+import Header from "@/components/Header/Header";
+import Footer from "@/components/Footer/Footer";
+import Hero from "@/components/Hero/Hero";
+import Testimonial from "@/components/Testimonial/Testimonial";
+import Accordion from "@/components/Accordion/Accordion";
+import FooterWidgets from "@/components/FooterWidgets/FooterWidgets";
+import TipsAndTricks from "@/components/TipsAndTricks/TipsAndTricks";
+import GameQR from "@/components/GameQR/GameQR";
+import useDeviceType from "@/utils/useDeviceType";
+import FBPixel from "@/lib/FBPixel";
+import { PIXELS } from "@/constants/pixels";
+import DeveloperSection from "@/components/DeveloperSection/DeveloperSection";
+import FlagSection from "@/components/FlagSection/FlagSection";
+import AppSpecific from "@/components/AppSpecific/AppSpecific";
+import RatingsAndReviews from "@/components/RatingsAndReviews/RatingsAndReviews";
+import GameScreenShotsV2 from "@/components/GameScreenShotsV2/GameScreenShotsV2";
+import { Suspense } from "react";
+import DownloadAppButton from "@/components/DownloadAppButton/DownloadAppButton";
+import Loader from "@/components/Loader/Loader";
+import HeroV2 from "@/components/HeroV2/HeroV2";
+import { Script } from "vm";
+import GameScreenShots from "@/components/GameScreenShots/GameScreenShots";
+
+type Props = {
+  params: { slug: string };
+};
+
+export async function generateStaticParams() {
+  const dir = path.join(process.cwd(), "data/games");
+  if (!fs.existsSync(dir)) return [];
+
+  return fs
+    .readdirSync(dir)
+    .filter((f) => f.endsWith(".json"))
+    .map((f) => ({ slug: f.replace(".json", "") }));
+}
+
+export default function GamePage({ params }: Props) {
+  const filePath = path.join(
+    process.cwd(),
+    "data/games",
+    `${params.slug}.json`,
+  );
+
+  if (!fs.existsSync(filePath)) {
+    notFound();
+  }
+
+  const game = JSON.parse(fs.readFileSync(filePath, "utf-8"));
+
+  const version = params.slug.endsWith("-v2") ? "v2" : "v1";
+
+  return (
+    <div className={styles.page}>
+      {/* <AnalyticsProvider gtagId="G-1FR83BKXJ1" gtmId="GTM-NCNL72F" /> */}
+      <script
+        defer
+        src="https://onelinksmartscript.appsflyer.com/onelink-smart-script-latest.js"
+      ></script>
+
+      {version === "v2" && (
+        <main className={styles.main}>
+          <Header />
+          <HeroV2 gameQRImage={game.qrImage} appIcon={game.appStore.icon} />
+          <Suspense fallback={<Loader />}>
+            <DownloadAppButton oneLinkUrl="https://skillz.onelink.me/QmH9/" />
+          </Suspense>
+          <div style={{ padding: "0 15px" }}>
+            <GameScreenShotsV2 screenshotsImages={game.appStore.screenshots} />
+            <RatingsAndReviews />
+            <AppSpecific />
+            <DeveloperSection />
+            <FlagSection />
+          </div>
+          <Footer />
+        </main>
+      )}
+
+      {version === "v1" && (
+        <main className={styles.main}>
+          <div className={!game.imageSrcTop ? styles.heroFallback : undefined}>
+            <Hero imageSrcTop={game.imageSrcTop} gameQRImage={game.qrImage} />
+          </div>
+          <GameScreenShots screenshotsImages={game.appStore.screenshots} />
+
+          <Suspense fallback={<Loader />}>
+            <DownloadAppButton oneLinkUrl="https://skillz.onelink.me/VcoS/SSKWeb" />
+          </Suspense>
+          <Footer />
+        </main>
+      )}
+    </div>
+  );
+}

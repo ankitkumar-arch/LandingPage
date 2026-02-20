@@ -1,0 +1,77 @@
+.statsSection {
+  width: 100%;
+  background-image: url("/images/rating_bg.png");
+  padding: 25px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.statsWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem; /* space between rating and players */
+  color: white;
+  font-family: var(--font-open-sans);
+  flex-wrap: nowrap; /* ❗ never wrap to next line */
+}
+
+/* Each stat block */
+.statItem {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  white-space: nowrap; /* keep text together */
+}
+
+/* Numbers and symbols (4.5★, 1Mn+) */
+.highlight {
+  font-weight: 800;
+  font-size: clamp(18px, 4.5vw, 40px); /* scales automatically */
+  color: white;
+  font-family: var(--font-open-sans);
+}
+
+/* Text labels (RATED, Skillz Players) */
+.text {
+  font-size: clamp(16px, 4vw, 38px);
+  font-weight: 400;
+  opacity: 0.8;
+  font-style: italic;
+  color: white;
+  font-family: var(--font-open-sans);
+}
+
+/* The thin yellow divider line between them */
+.divider {
+  width: 2px;
+  height: clamp(16px, 2vw, 30px);
+  background-color: #ffd95a;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+/* ✅ Responsive adjustments */
+@media (max-width: 768px) {
+  .statsSection {
+    padding: 22px 0;
+  }
+
+  .statsWrapper {
+    gap: 1.2rem;
+  }
+
+  .highlight {
+    font-size: clamp(24px, 7vw, 34px); /* ⬆ bigger and bolder on mobile */
+  }
+
+  .text {
+    font-size: clamp(14px, 4.5vw, 20px); /* good balance with highlight */
+  }
+
+  .divider {
+    height: 28px; /* taller so it matches the larger text */
+  }
+}
+

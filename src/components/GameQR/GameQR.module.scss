@@ -1,90 +1,67 @@
 .qrSection {
-  display: flex;
-  flex-direction: row;
-  background-color: rgb(245, 247, 255);
-  width: 100%;
+  position: absolute;
+  right: 0%;
+  bottom: -1%;
+  z-index: 3;
+  text-align: center;
+  
+  @media (max-width: 1200px) {
+    right: 2%;
+    bottom: 1%;
+  }
+  
+  @media (max-width: 768px) {
+    display: none !important;
+  }
 }
 
-.container {
+.qrContainer {
+  border-top-left-radius: 16px;
+  padding: 25px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 2.3);
   display: flex;
-  padding: 64px 120px;
+  flex-direction: column;
   align-items: center;
-  gap: 32px;
-  align-self: stretch;
-  max-width: 1440px;
-  justify-content: space-between;
-  margin: 0 auto;
+  justify-content: center;
+  margin-bottom: 7px;
+  
+  @media (max-width: 1200px) {
+    padding: 15px;
+    border-top-left-radius: 16px;
+    margin-bottom: 7px;
+  }
 }
 
-.qrText {
+.qrImage {
+  width: 170px;
+  height: 170px;
+  object-fit: contain;
+  display: block;
+  
+  @media (max-width: 1200px) {
+    width: 170px;
+    height: 170px;
+  }
+}
+
+.qrTextContainer {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
-.getGame {
-  font-size: 32px;
-   background: linear-gradient(180deg, #38006b -9.62%, #7b2499 106.25%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text; /* for Firefox */
-  color: transparent;
-}
-
-.getLink {
-  color: #521887;
-  font-size: 20px;
-  font-style: normal;
-  line-height: 24px;
-}
-
-.steps {
-  display: flex;
-  align-items: flex-start;
-  gap: 16px;
-  align-self: center;
-  flex-direction: column;
-  max-width: 531px;
-  width: 100%;
-  font-size: 18px;
-}
-
-.stepImage {
-  width: 33px;
-  height: 34px;
-}
-
-.stepOne {
-  display: flex;
-  gap: 18px;
-  align-items: flex-start;
-  font-size: 18px;
-  font-style: normal;
-  line-height: 120%;
-  color: #521887;
-}
-
-.stepTwo {
-  display: flex;
-  gap: 18px;
-  align-items: flex-start;
-  font-size: 18px;
-  font-style: normal;
-  line-height: 120%;
-  color: #521887;
-}
-
-.stepThree {
-  display: flex;
-  gap: 18px;
-  align-items: flex-start;
-  font-size: 18px;
-  font-style: normal;
-  line-height: 120%;
-  color: #521887;
-}
-
-.qrCode {
-    width: 130px;
-    height: 130px;
+.qrTextLine1 {
+  color: #000;
+  font-size: 1.1rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 0;
+  line-height: 1.2;
+  
+  @media (max-width: 1200px) {
+    font-size: 1rem;
+  }
 }

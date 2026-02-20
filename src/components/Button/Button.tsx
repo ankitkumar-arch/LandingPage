@@ -1,52 +1,54 @@
+"use client";
 import React from "react";
 import styles from "./Button.module.scss";
-import { userAgent } from "next/server";
+import { generateAFOneLink } from "@/utils/generateOneLink";
 
 interface PlayButtonProps {
   /** Text inside the button */
-  text?: string;
+  text: string;
   /** Section/location where button appears (for tracking) */
   location: string;
-  /** Game ID for redirect */
-  gameId: string;
   /** Optional custom background (gradient/color/transition) */
   background?: string;
   /** Extra classNames for overrides */
   className?: string;
   /** Name of the game */
   game: string;
+  /** onelink for the game */
+  oneLinkUrl: string;
 }
 
+declare global {
+  interface Window {
+    fbq?: (
+      event: string,
+      action?: string,
+      params?: Record<string, string | number | boolean>
+    ) => void;
+  }
+}
 const PlayButton: React.FC<PlayButtonProps> = ({
-  text = "START PLAYING",
+  text,
   location,
-  gameId,
   background,
   className,
   game,
+  oneLinkUrl,
 }) => {
-
   const sendEvents = async () => {
-    const fbcMatch = document.cookie.match(/_fbc=([^;]+)/);
-    const fbc = fbcMatch ? fbcMatch[1] : null;
-    console.log("ress", process.env.FB_PIXEL_ID_BOB);
     const res = await fetch("/api/meta-conversion", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         eventName: "start_playing_hero",
-        userData: { email: "abc@gmail.com" },
-        fbc: fbc,
-        userAgent: navigator.userAgent,
       }),
     });
     const data = await res.json();
-    console.log("Meta API ", data);
   };
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleClick = async () => {
     sendEvents();
     if (typeof window.fbq === "function") {
-      window.fbq("trackCustom", "StartPlaying", {
+      window.fbq("trackCustom", "button_click", {
         buttonText: text,
         location: location,
         trackType: "cta",
@@ -55,8 +57,20 @@ const PlayButton: React.FC<PlayButtonProps> = ({
       });
     }
 
-    // Redirect to game
-    // window.location.href = `https://games.skillz.com/mobile/games/${gameId}`;
+    const appsFlyerResult = await generateAFOneLink(oneLinkUrl);
+
+    const clickURL = appsFlyerResult?.clickURL;
+    if (!clickURL) {
+      window.location.href = oneLinkUrl;
+      return;
+    }
+
+    setTimeout(() => {
+      if (window.AF_SMART_SCRIPT?.fireImpressionsLink) {
+        window.AF_SMART_SCRIPT.fireImpressionsLink();
+      }
+      window.location.href = clickURL;
+    }, 500);
   };
 
   return (
