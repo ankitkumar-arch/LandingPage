@@ -79,7 +79,6 @@ import { Suspense } from "react";
 import DownloadAppButton from "@/components/DownloadAppButton/DownloadAppButton";
 import Loader from "@/components/Loader/Loader";
 import HeroV2 from "@/components/HeroV2/HeroV2";
-import { Script } from "vm";
 import GameScreenShots from "@/components/GameScreenShots/GameScreenShots";
 
 export async function generateStaticParams() {
@@ -95,14 +94,15 @@ export async function generateStaticParams() {
 export default async function GamePage({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
-  const { slug } = params;
+  const { slug } = await params;
 
   const filePath = path.join(process.cwd(), "data/games", `${slug}.json`);
+
   if (!fs.existsSync(filePath)) {
-    notFound();
-  }
+  notFound();
+}
 
   const game = JSON.parse(fs.readFileSync(filePath, "utf-8"));
 
