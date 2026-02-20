@@ -82,10 +82,6 @@ import HeroV2 from "@/components/HeroV2/HeroV2";
 import { Script } from "vm";
 import GameScreenShots from "@/components/GameScreenShots/GameScreenShots";
 
-type Props = {
-  params: { slug: string };
-};
-
 export async function generateStaticParams() {
   const dir = path.join(process.cwd(), "data/games");
   if (!fs.existsSync(dir)) return [];
@@ -96,20 +92,21 @@ export async function generateStaticParams() {
     .map((f) => ({ slug: f.replace(".json", "") }));
 }
 
-export default async function GamePage({ params }: Props) {
-  const filePath = path.join(
-    process.cwd(),
-    "data/games",
-    `${params.slug}.json`,
-  );
+export default async function GamePage({
+  params,
+}: {
+  params: { slug: string };
+}) {
+  const { slug } = params;
 
+  const filePath = path.join(process.cwd(), "data/games", `${slug}.json`);
   if (!fs.existsSync(filePath)) {
     notFound();
   }
 
   const game = JSON.parse(fs.readFileSync(filePath, "utf-8"));
 
-  const version = params.slug.endsWith("-v2") ? "v2" : "v1";
+  const version = slug.endsWith("-v2") ? "v2" : "v1";
 
   return (
     <div className={styles.page}>
