@@ -101,7 +101,7 @@ export default function AdminPage() {
       setError("");
       setAppData(null);
 
-      const res = await fetch(`http://localhost:4000/appstore?appId=${appId}`);
+      const res = await fetch(`/api/appstore?appId=${appId}`);
 
       if (!res.ok) throw new Error("Backend failed");
 
