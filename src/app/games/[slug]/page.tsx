@@ -96,7 +96,7 @@ export async function generateStaticParams() {
     .map((f) => ({ slug: f.replace(".json", "") }));
 }
 
-export default function GamePage({ params }: Props) {
+export default async function GamePage({ params }: Props) {
   const filePath = path.join(
     process.cwd(),
     "data/games",
