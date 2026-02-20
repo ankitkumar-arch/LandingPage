@@ -321,7 +321,7 @@ export default function AdminPage() {
           boxShadow: "0 10px 30px rgba(0,0,0,0.08)",
         }}
       >
-        <h2 style={{ marginBottom: "30px" }}>App Store Page Generator</h2>
+        <h2 style={{ marginBottom: "30px" }}>Landing Page Generator</h2>
 
         {/* App Store Section */}
         <div
