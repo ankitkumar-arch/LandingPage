@@ -1,6 +1,44 @@
+// import { NextResponse } from "next/server";
+// import fs from "fs";
+// import path from "path";
+
+// export async function POST(req: Request) {
+//   try {
+//     const body = await req.json();
+
+//     if (!body.slug) {
+//       return NextResponse.json(
+//         { error: "Missing slug" },
+//         { status: 400 }
+//       );
+//     }
+
+//     const dir = path.join(process.cwd(), "data/games");
+
+//     if (!fs.existsSync(dir)) {
+//       fs.mkdirSync(dir, { recursive: true });
+//     }
+
+//     const filePath = path.join(dir, `${body.slug}.json`);
+
+//     fs.writeFileSync(
+//       filePath,
+//       JSON.stringify(body, null, 2),
+//       "utf-8"
+//     );
+
+//     return NextResponse.json({ success: true });
+//   } catch (err) {
+//     console.error(err);
+//     return NextResponse.json(
+//       { error: "Failed to save game" },
+//       { status: 500 }
+//     );
+//   }
+// }
+
 import { NextResponse } from "next/server";
-import fs from "fs";
-import path from "path";
+import clientPromise from "@/lib/mongodb";
 
 export async function POST(req: Request) {
   try {
@@ -13,25 +51,20 @@ export async function POST(req: Request) {
       );
     }
 
-    const dir = path.join(process.cwd(), "data/games");
+    const client = await clientPromise;
+    const db = client.db("landing-pages");
 
-    if (!fs.existsSync(dir)) {
-      fs.mkdirSync(dir, { recursive: true });
-    }
-
-    const filePath = path.join(dir, `${body.slug}.json`);
-
-    fs.writeFileSync(
-      filePath,
-      JSON.stringify(body, null, 2),
-      "utf-8"
+    await db.collection("games").updateOne(
+      { slug: body.slug },
+      { $set: body },
+      { upsert: true }
     );
 
     return NextResponse.json({ success: true });
   } catch (err) {
-    console.error(err);
+    console.error("SAVE ERROR:", err);
     return NextResponse.json(
-      { error: "Failed to save game" },
+      { error: "Failed to save game", details: String(err) },
       { status: 500 }
     );
   }

@@ -62,13 +62,6 @@ import styles from "@/styles/page.module.css";
 import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
 import Hero from "@/components/Hero/Hero";
-import Testimonial from "@/components/Testimonial/Testimonial";
-import Accordion from "@/components/Accordion/Accordion";
-import FooterWidgets from "@/components/FooterWidgets/FooterWidgets";
-import TipsAndTricks from "@/components/TipsAndTricks/TipsAndTricks";
-import GameQR from "@/components/GameQR/GameQR";
-import useDeviceType from "@/utils/useDeviceType";
-import FBPixel from "@/lib/FBPixel";
 import { PIXELS } from "@/constants/pixels";
 import DeveloperSection from "@/components/DeveloperSection/DeveloperSection";
 import FlagSection from "@/components/FlagSection/FlagSection";
@@ -80,16 +73,10 @@ import DownloadAppButton from "@/components/DownloadAppButton/DownloadAppButton"
 import Loader from "@/components/Loader/Loader";
 import HeroV2 from "@/components/HeroV2/HeroV2";
 import GameScreenShots from "@/components/GameScreenShots/GameScreenShots";
+import AnalyticsProvider from "@/utils/AnalyticsProvider";
+import clientPromise from "@/lib/mongodb";
 
-export async function generateStaticParams() {
-  const dir = path.join(process.cwd(), "data/games");
-  if (!fs.existsSync(dir)) return [];
-
-  return fs
-    .readdirSync(dir)
-    .filter((f) => f.endsWith(".json"))
-    .map((f) => ({ slug: f.replace(".json", "") }));
-}
+export const dynamic = "force-dynamic";
 
 export default async function GamePage({
   params,
@@ -97,20 +84,20 @@ export default async function GamePage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
+  const client = await clientPromise;
+  const db = client.db("landing-pages");
 
-  const filePath = path.join(process.cwd(), "data/games", `${slug}.json`);
+  const game = await db.collection("games").findOne({ slug: slug });
 
-  if (!fs.existsSync(filePath)) {
-  notFound();
-}
-
-  const game = JSON.parse(fs.readFileSync(filePath, "utf-8"));
+  if (!game) {
+    notFound();
+  }
 
   const version = slug.endsWith("-v2") ? "v2" : "v1";
 
   return (
     <div className={styles.page}>
-      {/* <AnalyticsProvider gtagId="G-1FR83BKXJ1" gtmId="GTM-NCNL72F" /> */}
+      <AnalyticsProvider gtagId="G-1FR83BKXJ1" gtmId="GTM-NCNL72F" />
       <script
         defer
         src="https://onelinksmartscript.appsflyer.com/onelink-smart-script-latest.js"
