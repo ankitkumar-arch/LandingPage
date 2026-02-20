@@ -14,7 +14,7 @@ const FooterWidgets = () => {
           ? "Do you have what it takes to win?"
           : "Ready to start winning?"}
       </h4>
-      <PlayButton location="ready_to_start_section" gameId="5638" game="BOB" />
+      {/* <PlayButton location="ready_to_start_section" game="BOB" /> */}
     </div>
   );
 };

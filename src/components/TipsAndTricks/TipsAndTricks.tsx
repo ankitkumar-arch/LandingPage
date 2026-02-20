@@ -35,7 +35,7 @@ const TipsAndTricks: React.FC<TipsAndTricksProps> = ({
       </div>
 
       {/* Info Cards */}
-      <PlayButton location="tips_trick_section" gameId="5638" game="BOB" />
+      {/* <PlayButton location="tips_trick_section" gameId="5638" game="BOB" /> */}
     </div>
   );
 };
