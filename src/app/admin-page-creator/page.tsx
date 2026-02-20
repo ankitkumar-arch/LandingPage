@@ -85,6 +85,15 @@ export default function AdminPage() {
   const [qrImage, setQrImage] = useState<string | null>(null);
   const [generatedJson, setGeneratedJson] = useState<any>(null);
   const [version, setVersion] = useState<"v1" | "v2">("v1");
+  const [onelinkUrl, setOnelinkUrl] = useState("");
+
+  const inputStyle: React.CSSProperties = {
+    width: "100%",
+    padding: "10px 14px",
+    borderRadius: "8px",
+    border: "1px solid #ddd",
+    marginTop: "8px",
+  };
 
   function slugify(text: string) {
     return text
@@ -162,6 +171,7 @@ export default function AdminPage() {
       slug,
       gameName,
       qrImage,
+      onelinkUrl,
       appStore: {
         trackName: appData.trackName,
         description: appData.description,
@@ -209,74 +219,291 @@ export default function AdminPage() {
   }
 
   return (
-    <>
-      <h2>Extract Images From App Store</h2>
+    // <>
+    //   <h2>Extract Images From App Store</h2>
 
-      <input
-        placeholder="Enter App Store App ID"
-        value={appId}
-        onChange={(e) => setAppId(e.target.value)}
-      />
-      <button onClick={fetchFromAppStore}>Fetch</button>
+    //   <input
+    //     placeholder="Enter App Store App ID"
+    //     value={appId}
+    //     onChange={(e) => setAppId(e.target.value)}
+    //   />
+    //   <button onClick={fetchFromAppStore}>Fetch</button>
 
-      <hr />
+    //   <hr />
 
-      <h3>Game Details</h3>
+    //   <h3>Game Details</h3>
 
-      <input
-        placeholder="Enter Game Name"
-        value={gameName}
-        onChange={(e) => setGameName(e.target.value)}
-      />
+    //   <div style={{ width: "300px" }}>
+    //     <label>Game Name:</label>
+    //     <input
+    //       placeholder="Enter Game Name"
+    //       value={gameName}
+    //       onChange={(e) => setGameName(e.target.value)}
+    //       style={{ width: "500px" }}
+    //     />
+    //   </div>
 
-      <div>
-        <label>Upload Game QR</label>
-        <input type="file" accept="image/*" onChange={handleQrUpload} />
-      </div>
+    //   <div style={{ padding: "10px 0" }}>
+    //     <label style={{ padding: "0 10px 0 0" }}>Onelink URL:</label>
+    //     <input
+    //       placeholder="Enter OneLink URL"
+    //       value={onelinkUrl}
+    //       onChange={(e) => setOnelinkUrl(e.target.value)}
+    //       style={{ width: "300px" }}
+    //     />
+    //   </div>
 
-      <div>
-        <label>Select Version: </label>
-        <select
-          value={version}
-          onChange={(e) => setVersion(e.target.value as "v1" | "v2")}
+    //   <div style={{ padding: "10px 0" }}>
+    //     <label style={{ padding: "0 10px 0 0" }}>Upload Game QR:</label>
+    //     <input type="file" accept="image/*" onChange={handleQrUpload} />
+    //   </div>
+
+    //   <div>
+    //     <label style={{ padding: "0 10px 0 0" }}>Select Version: </label>
+    //     <select
+    //       value={version}
+    //       onChange={(e) => setVersion(e.target.value as "v1" | "v2")}
+    //     >
+    //       <option value="v1">v1</option>
+    //       <option value="v2">v2</option>
+    //     </select>
+    //   </div>
+
+    //   {qrImage && <img src={qrImage} alt="QR Preview" width={150} />}
+
+    //   {error && <p style={{ color: "red" }}>{error}</p>}
+
+    //   {appData && (
+    //     <>
+    //       <h3>{appData.trackName}</h3>
+
+    //       <img src={appData.artworkUrl512} alt="App Icon" width={150} />
+
+    //       <h4>Screenshots</h4>
+    //       <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+    //         {appData.screenshotUrls.map((url: string, i: number) => (
+    //           <img key={i} src={url} width={200} />
+    //         ))}
+    //       </div>
+
+    //       <h4>Description</h4>
+    //       <p>{appData.description}</p>
+
+    //       <button onClick={generateAndSave}>Generate Page JSON</button>
+    //     </>
+    //   )}
+
+    //   {generatedJson && (
+    //     <>
+    //       <h3>Generated JSON</h3>
+    //       <pre style={{ minHeight: 300, overflow: "auto" }}>
+    //         {JSON.stringify(generatedJson, null, 2)}
+    //       </pre>
+    //     </>
+    //   )}
+    // </>
+
+    <div
+      style={{
+        minHeight: "100vh",
+        background: "#f5f7fa",
+        padding: "40px 0",
+        display: "flex",
+        justifyContent: "center",
+      }}
+    >
+      <div
+        style={{
+          width: "1100px",
+          background: "#ffffff",
+          borderRadius: "12px",
+          padding: "40px",
+          boxShadow: "0 10px 30px rgba(0,0,0,0.08)",
+        }}
+      >
+        <h2 style={{ marginBottom: "30px" }}>App Store Page Generator</h2>
+
+        {/* App Store Section */}
+        <div
+          style={{
+            display: "flex",
+            gap: "20px",
+            alignItems: "center",
+            marginBottom: "30px",
+          }}
         >
-          <option value="v1">v1</option>
-          <option value="v2">v2</option>
-        </select>
-      </div>
+          <input
+            placeholder="Enter App Store App ID"
+            value={appId}
+            onChange={(e) => setAppId(e.target.value)}
+            style={{
+              padding: "10px 14px",
+              borderRadius: "8px",
+              border: "1px solid #ddd",
+              width: "250px",
+            }}
+          />
 
-      {qrImage && <img src={qrImage} alt="QR Preview" width={150} />}
+          <button
+            onClick={fetchFromAppStore}
+            style={{
+              padding: "10px 18px",
+              background: "#2563eb",
+              color: "#fff",
+              border: "none",
+              borderRadius: "8px",
+              cursor: "pointer",
+            }}
+          >
+            Fetch App Data
+          </button>
+        </div>
 
-      {error && <p style={{ color: "red" }}>{error}</p>}
+        <hr style={{ margin: "30px 0" }} />
 
-      {appData && (
-        <>
-          <h3>{appData.trackName}</h3>
+        {/* Game Details Section */}
+        <h3 style={{ marginBottom: "20px" }}>Game Details</h3>
 
-          <img src={appData.artworkUrl512} alt="App Icon" width={150} />
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+            gap: "30px",
+          }}
+        >
+          <div>
+            <label>Game Name</label>
+            <input
+              value={gameName}
+              onChange={(e) => setGameName(e.target.value)}
+              placeholder="Enter Game Name"
+              style={inputStyle}
+            />
 
-          <h4>Screenshots</h4>
-          <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-            {appData.screenshotUrls.map((url: string, i: number) => (
-              <img key={i} src={url} width={200} />
-            ))}
+            <label style={{ marginTop: "20px", display: "block" }}>
+              OneLink URL
+            </label>
+            <input
+              value={onelinkUrl}
+              onChange={(e) => setOnelinkUrl(e.target.value)}
+              placeholder="Enter OneLink URL"
+              style={inputStyle}
+            />
+
+            <label style={{ marginTop: "20px", display: "block" }}>
+              Upload QR Code
+            </label>
+            <input type="file" accept="image/*" onChange={handleQrUpload} />
+
+            {qrImage && (
+              <img
+                src={qrImage}
+                alt="QR Preview"
+                style={{ marginTop: "15px", width: "120px" }}
+              />
+            )}
+
+            <label style={{ marginTop: "20px", display: "block" }}>
+              Select Version
+            </label>
+            <select
+              value={version}
+              onChange={(e) => setVersion(e.target.value as "v1" | "v2")}
+              style={inputStyle}
+            >
+              <option value="v1">v1</option>
+              <option value="v2">v2</option>
+            </select>
           </div>
 
-          <h4>Description</h4>
-          <p>{appData.description}</p>
+          {/* Right Column – App Store Preview */}
+          {appData && (
+            <div>
+              <h4 style={{ marginBottom: "15px" }}>{appData.trackName}</h4>
 
-          <button onClick={generateAndSave}>Generate Page JSON</button>
-        </>
-      )}
+              <img
+                src={appData.artworkUrl512}
+                alt="App Icon"
+                style={{ width: "120px", borderRadius: "16px" }}
+              />
 
-      {generatedJson && (
-        <>
-          <h3>Generated JSON</h3>
-          <pre style={{ minHeight: 300, overflow: "auto" }}>
-            {JSON.stringify(generatedJson, null, 2)}
-          </pre>
-        </>
-      )}
-    </>
+              <h4 style={{ marginTop: "20px" }}>Screenshots</h4>
+              <div
+                style={{
+                  display: "flex",
+                  gap: "10px",
+                  overflowX: "auto",
+                  paddingBottom: "10px",
+                }}
+              >
+                {appData.screenshotUrls.map((url: string, i: number) => (
+                  <img
+                    key={i}
+                    src={url}
+                    style={{
+                      width: "150px",
+                      borderRadius: "10px",
+                      border: "1px solid #eee",
+                    }}
+                  />
+                ))}
+              </div>
+
+              <h4 style={{ marginTop: "20px" }}>Description</h4>
+              <div
+                style={{
+                  maxHeight: "150px",
+                  overflowY: "auto",
+                  fontSize: "14px",
+                  color: "#555",
+                  lineHeight: "1.6",
+                }}
+              >
+                {appData.description}
+              </div>
+            </div>
+          )}
+        </div>
+
+        {error && <p style={{ color: "red", marginTop: "20px" }}>{error}</p>}
+
+        {appData && (
+          <div style={{ marginTop: "30px" }}>
+            <button
+              onClick={generateAndSave}
+              style={{
+                padding: "12px 22px",
+                background: "#16a34a",
+                color: "#fff",
+                border: "none",
+                borderRadius: "8px",
+                cursor: "pointer",
+                fontWeight: 600,
+              }}
+            >
+              Generate Landing Page
+            </button>
+          </div>
+        )}
+
+        {generatedJson && (
+          <div style={{ marginTop: "40px" }}>
+            <h3>Generated JSON</h3>
+            <pre
+              style={{
+                background: "#f3f4f6",
+                padding: "20px",
+                borderRadius: "10px",
+                maxHeight: "300px",
+                overflow: "auto",
+                fontSize: "13px",
+              }}
+            >
+              {JSON.stringify(generatedJson, null, 2)}
+            </pre>
+          </div>
+        )}
+      </div>
+    </div>
   );
 }

@@ -108,7 +108,7 @@ export default async function GamePage({
           <Header />
           <HeroV2 gameQRImage={game.qrImage} appIcon={game.appStore.icon} />
           <Suspense fallback={<Loader />}>
-            <DownloadAppButton oneLinkUrl="https://skillz.onelink.me/QmH9/" />
+            <DownloadAppButton oneLinkUrl={game.onelinkUrl} />
           </Suspense>
           <div style={{ padding: "0 15px" }}>
             <GameScreenShotsV2 screenshotsImages={game.appStore.screenshots} />
@@ -129,7 +129,7 @@ export default async function GamePage({
           <GameScreenShots screenshotsImages={game.appStore.screenshots} />
 
           <Suspense fallback={<Loader />}>
-            <DownloadAppButton oneLinkUrl="https://skillz.onelink.me/VcoS/SSKWeb" />
+            <DownloadAppButton oneLinkUrl={game.onelinkUrl} />
           </Suspense>
           <Footer />
         </main>
