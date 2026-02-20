@@ -23,7 +23,7 @@ function waitForSmartScript() {
 export async function generateAFOneLink(baseOneLink: string) {
   await waitForSmartScript();
 
-  const result = window.AF_SMART_SCRIPT.generateOneLinkURL({
+  const result = window.AF_SMART_SCRIPT!.generateOneLinkURL!({
     oneLinkURL: baseOneLink,
     webReferrer: "af_channel",
     afParameters: {
