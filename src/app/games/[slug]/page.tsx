@@ -75,6 +75,7 @@ import HeroV2 from "@/components/HeroV2/HeroV2";
 import GameScreenShots from "@/components/GameScreenShots/GameScreenShots";
 import AnalyticsProvider from "@/utils/AnalyticsProvider";
 import clientPromise from "@/lib/mongodb";
+import FooterWidgets from "@/components/FooterWidgets/FooterWidgets";
 
 export const dynamic = "force-dynamic";
 
@@ -95,6 +96,24 @@ export default async function GamePage({
 
   const version = slug.endsWith("-v2") ? "v2" : "v1";
 
+  function generateTags(appStore: any) {
+    const tags: string[] = [];
+
+    if (game?.appStore.genres?.length) {
+      tags.push(...game.appStore.genres);
+    }
+
+    // Optional marketing tags
+    tags.push("Top Rated");
+    tags.push("Trending");
+
+    // Remove duplicates
+    return [...new Set(tags)];
+  }
+
+  const formattedRating = Number(game.appStore.appRating?.toFixed(1));
+
+
   return (
     <div className={styles.page}>
       <AnalyticsProvider gtagId="G-1FR83BKXJ1" gtmId="GTM-NCNL72F" />
@@ -106,13 +125,24 @@ export default async function GamePage({
       {version === "v2" && (
         <main className={styles.main}>
           <Header />
-          <HeroV2 gameQRImage={game.qrImage} appIcon={game.appStore.icon} />
+          <HeroV2
+            gameQRImage={game.qrImage}
+            appIcon={game.appStore.icon}
+            bgImage={game.backgroundImage}
+            gameRating={formattedRating}
+          />
           <Suspense fallback={<Loader />}>
             <DownloadAppButton oneLinkUrl={game.onelinkUrl} />
           </Suspense>
           <div style={{ padding: "0 15px" }}>
             <GameScreenShotsV2 screenshotsImages={game.appStore.screenshots} />
-            <RatingsAndReviews />
+            <RatingsAndReviews
+              reviews={game.reviews}
+              gameName={game.gameName}
+              gameDesc={game.appStore.description}
+              gameRating={formattedRating}
+              gameGenres={generateTags(game.appStore.gameGenres)}
+            />
             <AppSpecific />
             <DeveloperSection />
             <FlagSection />
@@ -124,9 +154,14 @@ export default async function GamePage({
       {version === "v1" && (
         <main className={styles.main}>
           <div className={!game.imageSrcTop ? styles.heroFallback : undefined}>
-            <Hero imageSrcTop={game.imageSrcTop} gameQRImage={game.qrImage} />
+            <Hero
+              imageSrcTop={game.imageSrcTop}
+              gameQRImage={game.qrImage}
+              bgImage={game.backgroundImage}
+            />
           </div>
           <GameScreenShots screenshotsImages={game.appStore.screenshots} />
+           <FooterWidgets oneLinkUrl={game.onelinkUrl} />
 
           <Suspense fallback={<Loader />}>
             <DownloadAppButton oneLinkUrl={game.onelinkUrl} />

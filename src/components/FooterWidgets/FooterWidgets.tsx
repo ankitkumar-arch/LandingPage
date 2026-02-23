@@ -1,20 +1,22 @@
-"use client";
 import React from "react";
 import styles from "./FooterWidgets.module.scss";
-import useDeviceType from "@/utils/useDeviceType";
-import PlayButton from "../Button/Button";
+import PhoneLinks from "../PhoneLinks/PhoneLinks";
 
-const FooterWidgets = () => {
-  const deviceType = useDeviceType();
+interface FooterWidgetsProps {
+  onelinkUrl: string;
+}
+
+const FooterWidgets: React.FC<FooterWidgetsProps> = ({ onelinkUrl }) => {
   return (
-    <div className={styles.footerWidgets}>
-      <h4 className={styles.winText}>
-        {" "}
-        {deviceType === "mobile"
-          ? "Do you have what it takes to win?"
-          : "Ready to start winning?"}
-      </h4>
-      {/* <PlayButton location="ready_to_start_section" game="BOB" /> */}
+    <div className={styles.backgroundContainer}>
+      <span className={styles.text}>LET&apos;S PLAY</span>
+      <PhoneLinks
+        applePlayUrl={onelinkUrl}
+        androidPlayUrl={onelinkUrl}
+        width={308}
+        height={88}
+      />
+      {/* <span className={styles.footerText}>*Including all Skillz Platform</span> */}
     </div>
   );
 };

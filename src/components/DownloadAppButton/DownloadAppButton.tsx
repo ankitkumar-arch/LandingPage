@@ -35,7 +35,7 @@ const DownloadAppButton: React.FC<DownloadAppButtonProps> = ({
           <div className={styles.content}>
             <p>Download & Claim Bonus</p>
             <img
-              src="/images/solitaire-skillz/download_icon.webp"
+              src="/images/download_icon.webp"
               className={styles.iconRight}
             />
           </div>

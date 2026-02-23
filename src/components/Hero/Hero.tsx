@@ -16,9 +16,10 @@ const PlayButton = dynamic(() => import("../Button/Button"), { ssr: false });
 interface HeroPropsTypes {
   imageSrcTop: string;
   gameQRImage: string;
+  bgImage: string;
 }
 
-const Hero: React.FC<HeroPropsTypes> = ({ imageSrcTop, gameQRImage }) => {
+const Hero: React.FC<HeroPropsTypes> = ({ imageSrcTop, gameQRImage, bgImage }) => {
   const deviceType = useDeviceType();
   return (
     <div className={styles.hero_bgImage}>
@@ -26,8 +27,8 @@ const Hero: React.FC<HeroPropsTypes> = ({ imageSrcTop, gameQRImage }) => {
         <div
           className={styles.heroImageTop}
           style={
-            imageSrcTop
-              ? { backgroundImage: `url(${imageSrcTop})` }
+            bgImage
+              ? { backgroundImage: `url(${bgImage})` }
               : { background: "linear-gradient(135deg, #1e3c72, #2a5298)" }
           }
         />

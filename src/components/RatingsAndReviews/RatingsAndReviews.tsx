@@ -55,30 +55,63 @@ const reviews = [
   },
 ];
 
-const RatingsAndReviews = () => {
+interface Reviews {
+  name: string;
+  text: string;
+  rating: number;
+  gameName: string;
+  gameDesc: string;
+  gameRating: number;
+  gameGenres: string[];
+}
+
+const RatingsAndReviews = ({
+  gameName,
+  gameDesc,
+  reviews,
+  gameRating,
+  gameGenres,
+}: {
+  gameName: string;
+  gameDesc: string;
+  reviews: Reviews[];
+  gameRating: number;
+  gameGenres: string[];
+}) => {
+  function cleanDescription(text: string) {
+    if (!text) return "";
+
+    const keywords = ["KEY FEATURES", "Features:", "Contact", "support@"];
+
+    let cutIndex = text.length;
+
+    keywords.forEach((keyword) => {
+      const index = text.indexOf(keyword);
+      if (index !== -1 && index < cutIndex) {
+        cutIndex = index;
+      }
+    });
+
+    return text.substring(0, cutIndex).trim();
+  }
+
   return (
     <>
       <div className={styles.pageLayout}>
         <div className={styles.mainContent}>
           <div className={styles.gameText}>
             <span className={styles.title}>
-              Love Solitaire? We&apos;ve got you covered! ➜
+              Love {gameName} We&apos;ve got you covered! ➜
             </span>
             <div className={styles.subTitle}>
               Compete against other players in tournaments and WIN REAL MONEY!
             </div>
             <p className={styles.gameDetailText}>
-              Win REAL CASH and prizes playing classic solitaire with Solitaire
-              Skillz! Welcome to Solitaire Skillz, where your favorite game of
-              Klondike solitaire meets thrilling competition and real-world rewards!
-              Whether you&apos;re a seasoned card shark or a casual player, this is your
-              chance to turn skill and strategy into cash prizes. With Solitaire
-              Skillz, you get the same old-school solitaire you know and love – only
-              now you can win REAL MONEY and PRIZES while you play!
+              {cleanDescription(gameDesc)}
             </p>
           </div>
 
-          <RatingBar />
+          <RatingBar gameRating={gameRating} tags={gameGenres} />
 
           <DataSafety />
 
@@ -87,17 +120,34 @@ const RatingsAndReviews = () => {
 
             {reviews.map((rev, i) => {
               const avatarColors = [
-                "blue",
-                "green",
-                "orange",
-                "purple",
-                "red",
-                "teal",
-                "brown",
+                "#3b82f6",
+                "#22c55e",
+                "#f97316",
+                "#a855f7",
+                "#ef4444",
+                "#14b8a6",
+                "#8b5cf6",
               ];
 
-              const colorIndex = Math.abs(rev.name.length % avatarColors.length);
-              const avatarColor = avatarColors[colorIndex];
+              const avatarColor =
+                avatarColors[Math.abs(rev.name.length % avatarColors.length)];
+
+              // ✅ Auto-generate initial
+              const initial = rev.name.charAt(0).toUpperCase();
+
+              // ✅ Auto-generate random helpful count
+              const helpful = Math.floor(Math.random() * 40) + 20;
+
+              // ✅ Auto-generate realistic past date (within last 6 months)
+              const randomDaysAgo = Math.floor(Math.random() * 180);
+              const dateObj = new Date();
+              dateObj.setDate(dateObj.getDate() - randomDaysAgo);
+
+              const formattedDate = dateObj.toLocaleDateString("en-US", {
+                month: "long",
+                day: "2-digit",
+                year: "numeric",
+              });
 
               return (
                 <div key={i} className={styles.reviewCard}>
@@ -106,7 +156,7 @@ const RatingsAndReviews = () => {
                       className={styles.avatar}
                       style={{ backgroundColor: avatarColor }}
                     >
-                      {rev.initial}
+                      {initial}
                     </div>
 
                     <div>
@@ -115,27 +165,32 @@ const RatingsAndReviews = () => {
                   </div>
 
                   <div className={styles.starsRow}>
-                    {Array(rev.stars)
+                    {Array(rev.rating)
                       .fill(0)
                       .map((_, idx) => (
-                        <span key={`filled-${idx}`} className={styles.starFilled}>
+                        <span
+                          key={`filled-${idx}`}
+                          className={styles.starFilled}
+                        >
                           ★
                         </span>
                       ))}
-                    {Array(5 - rev.stars)
+
+                    {Array(5 - rev.rating)
                       .fill(0)
                       .map((_, idx) => (
                         <span key={`empty-${idx}`} className={styles.starEmpty}>
                           ☆
                         </span>
                       ))}
-                    <span className={styles.date}>{rev.date}</span>
+
+                    <span className={styles.date}>{formattedDate}</span>
                   </div>
 
                   <p className={styles.text}>{rev.text}</p>
 
                   <p className={styles.helpful}>
-                    {rev.helpful.toLocaleString()} people found this review helpful
+                    {helpful.toLocaleString()} people found this review helpful
                   </p>
                 </div>
               );

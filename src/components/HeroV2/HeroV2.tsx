@@ -193,14 +193,20 @@ import useDeviceType from "@/utils/useDeviceType";
 import DownloadAppButton from "../DownloadAppButton/DownloadAppButton";
 
 interface HeroPropsTypes {
-  // imageSrcTop: string;
+  bgImage: string;
   gameQRImage: string;
   appIcon: string;
+  gameRating: number;
 }
 
-const HeroV2: React.FC<HeroPropsTypes> = ({ gameQRImage, appIcon }) => {
+const HeroV2: React.FC<HeroPropsTypes> = ({
+  gameQRImage,
+  appIcon,
+  bgImage,
+  gameRating,
+}) => {
   const deviceType = useDeviceType();
-   const imageSrcTop =
+  const imageSrcTop =
     deviceType === "mobile"
       ? "/images/ssk_hero_mobile.webp"
       : "/images/ssk_hero_desktop.webp";
@@ -208,47 +214,45 @@ const HeroV2: React.FC<HeroPropsTypes> = ({ gameQRImage, appIcon }) => {
     <div className={styles.hero_bgImage}>
       <div className={styles.topSection}>
         <img
-          src={imageSrcTop}
+          src={bgImage}
           alt="Hero Image Top"
           className={styles.heroImageTop}
         />
-        <div className={styles.ratingContainer}>
-          <div className={styles.gameImage}>
-            <img
-              src={appIcon}
-              alt="Game Icon"
-              width="80px"
-            />
-          </div>
-          <div className={styles.ratingBlock}>
-            <div className={styles.ratingTop}>
-              <span>4.8/5</span>
-              <span className={styles.star}>⭐</span>
+        <div className={styles.overlay}>
+          <div className={styles.ratingContainer}>
+            <div className={styles.gameImage}>
+              <img src={appIcon} alt="Game Icon" width="80px" />
             </div>
-            <span>297 Reviews</span>
-          </div>
-
-          <div className={styles.divider}></div>
-
-          <div className={styles.downloadBlock}>
-            <div className={styles.ratingTop}>100k+</div>
-            <div className={styles.subText}>Downloads</div>
-          </div>
-          {deviceType === "desktop" && (
-            <div className={styles.gameQR}>
-              <img
-                src={gameQRImage}
-                alt="Game QR Code"
-                className={styles.gameQRImage}
-              />
+            <div className={styles.ratingBlock}>
+              <div className={styles.ratingTop}>
+                <span>{`${gameRating}/5`}</span>
+                <span className={styles.star}>⭐</span>
+              </div>
+              <span>297 Reviews</span>
             </div>
-          )}
-        </div>
+
+            <div className={styles.divider}></div>
+
+            <div className={styles.downloadBlock}>
+              <div className={styles.ratingTop}>100k+</div>
+              <div className={styles.subText}>Downloads</div>
+            </div>
+            {deviceType === "desktop" && (
+              <div className={styles.gameQR}>
+                <img
+                  src={gameQRImage}
+                  alt="Game QR Code"
+                  className={styles.gameQRImage}
+                />
+              </div>
+            )}
+          </div>
+        
         {deviceType === "mobile" && (
           <div className={styles.apkInfo}>
             <div className={styles.apkVerifiedRow}>
               <img
-                src="images/security.svg"
+                src="/images/security.svg"
                 alt="Security Icon"
                 width="20"
                 height="20"
@@ -261,10 +265,10 @@ const HeroV2: React.FC<HeroPropsTypes> = ({ gameQRImage, appIcon }) => {
             </div>
           </div>
         )}
+        </div>
       </div>
     </div>
   );
 };
 
 export default HeroV2;
-

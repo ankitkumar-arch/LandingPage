@@ -24,7 +24,7 @@ const PhoneLinks: React.FC<PhoneLinksProps> = ({
       </a>
       <a href={androidPlayUrl} target="_blank" rel="noopener noreferrer">
         <Image
-          src="/images/GalaxyStore.webp"
+          src="/images/android_apk.webp"
           alt="android store"
           className={styles.androidStoreImage}
           width={180}

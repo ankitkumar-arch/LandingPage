@@ -1,41 +1,57 @@
-.footerWidgets {
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
+.backgroundContainer {
+  width: 100%;
+  height: auto;
+  background: linear-gradient(180deg, #5917a0, #740d71);
   display: flex;
-  flex-direction: column;
-  justify-content: center;
   align-items: center;
-  padding-bottom: 30px;
+  flex-direction: column;
+  padding: 40px 0 120px;
+  position: relative;
+}
 
-  @media (min-width: 400px) {
-    background-image: url("/images/ready-to-start-bg-mob.webp");
-  }
+.text {
+  color: yellow;
+  font-size: 42px;
+  font-weight: 800;
+  font-style: italic;
+  font-family: var(--font-open-sans);
+}
 
-  @media (min-width: 1024px) {
-    background-image: url("/images/ready-to-start-bg-desk.webp");
+.imageContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.storeImage {
+  height: auto;
+  width: auto;
+  max-width: 180px;
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: scale(1.05);
+    cursor: pointer;
   }
 }
 
-.winText {
-  color: #521887;
-  line-height: 40px;
-  text-align: center;
-  font-size: 28px;
-  font-style: normal;
-  padding: 0 40px 0 40px;
+/* Responsive */
+@media (max-width: 768px) {
+  .storeImage {
+    max-width: 140px;
+  }
 }
 
-.buttonCTA {
-  background: linear-gradient(182deg, #b976ec 1.74%, #9d69f6 120.39%);
-  padding: 10px 50px;
-  border-radius: 33px;
-  white-space: nowrap;
-  font-size: 20px;
+.footerText {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-open-sans);
+  font-weight: 400;
+  font-size: 14px;
   color: white;
-  box-shadow: 1px 2px 0 0 #693683;
-  margin-top: 10px;
-  cursor: pointer;
-  font-family: var(--font-quicksand);
-  font-weight: 700;
+  opacity: 0.8;
+  text-align: center;
 }

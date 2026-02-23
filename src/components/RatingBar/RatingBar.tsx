@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import styles from "./RatingBar.module.scss";
 
 interface RatingData {
@@ -15,36 +15,35 @@ interface RatingData {
 }
 
 interface RatingBarProps {
-  data?: RatingData;
+  gameRating: number;
+  tags: string[];
 }
 
-export default function RatingBar({ data }: RatingBarProps) {
-  const defaultData: RatingData = {
-    score: 4.8,
-    stars: 5,
-    ratings: {
-      5: 92,
-      4: 5,
-      3: 2,
-      2: 1,
-      1: 0.5,
-    },
-    tags: ['#1 top grossing casual', 'Casual', 'Solitaire', 'Cardgame', 'Stylized'],
+export default function RatingBar({ gameRating, tags }: RatingBarProps) {
+  const score = gameRating || 4.8;
+  const stars = Math.round(score);
+
+  // Fake distribution for now (can improve later)
+  const ratingsDistribution = {
+    5: score >= 4.5 ? 85 : 60,
+    4: 10,
+    3: 3,
+    2: 1,
+    1: 1,
   };
 
-  const ratingData = data || defaultData;
-
   const renderStars = (count: number) => {
-    return '★'.repeat(count);
+    return "★".repeat(count);
   };
 
   return (
     <div className={styles.ratingComponent}>
       <div className={styles.topSection}>
         <div className={styles.scoreBlock}>
-          <div className={styles.number}>{ratingData.score}</div>
-          <div className={styles.stars}>{renderStars(ratingData.stars)}</div>
+          <div className={styles.number}>{score.toFixed(1)}</div>
+          <div className={styles.stars}>{renderStars(stars)}</div>
         </div>
+
         <div className={styles.barsBlock}>
           {[5, 4, 3, 2, 1].map((star) => (
             <div key={star} className={styles.barRow}>
@@ -53,11 +52,7 @@ export default function RatingBar({ data }: RatingBarProps) {
                 <div
                   className={styles.barFill}
                   style={{
-                    width: `${
-                      ratingData.ratings[
-                        star as keyof typeof ratingData.ratings
-                      ]
-                    }%`,
+                    width: `${ratingsDistribution[star as keyof typeof ratingsDistribution]}%`,
                   }}
                 />
               </div>
@@ -65,8 +60,9 @@ export default function RatingBar({ data }: RatingBarProps) {
           ))}
         </div>
       </div>
+
       <div className={styles.tags}>
-        {ratingData.tags.map((tag, index) => (
+        {tags.map((tag, index) => (
           <span key={index} className={styles.tag}>
             {tag}
           </span>

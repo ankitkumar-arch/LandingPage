@@ -5,7 +5,7 @@ const FlagSection = () => {
     <div className={styles.container}>
       <div className={styles.items}>
         <img
-          src="images/solitaire-skillz/US.png"
+          src="/images/US.png"
           alt="US Flag"
           loading="lazy"
           width="24"
