@@ -161,7 +161,7 @@ export default async function GamePage({
             />
           </div>
           <GameScreenShots screenshotsImages={game.appStore.screenshots} />
-           <FooterWidgets oneLinkUrl={game.onelinkUrl} />
+           <FooterWidgets onelinkUrl={game.onelinkUrl} />
 
           <Suspense fallback={<Loader />}>
             <DownloadAppButton oneLinkUrl={game.onelinkUrl} />
