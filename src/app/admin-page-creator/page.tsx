@@ -341,7 +341,7 @@ export default function AdminPage() {
           <Card>
             <CardHeader
               title="④ User Reviews"
-              subtitle="Add atleast 4 reviwers"
+              subtitle="Add atleast 5 reviewers"
               right={
                 reviews.length > 0 ? (
                   <span className={styles.reviewCount}>
@@ -580,7 +580,7 @@ export default function AdminPage() {
                     <p className={styles.previewSectionLabel}>Screenshots</p>
                     <div className={styles.previewScreenshots}>
                       {appData.screenshotUrls
-                        ?.slice(0, 5)
+                        ?.slice(0, appData.screenshotUrls.length)
                         .map((url: string, i: number) => (
                           <img
                             key={i}
