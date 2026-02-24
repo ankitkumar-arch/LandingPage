@@ -197,6 +197,8 @@ interface HeroPropsTypes {
   gameQRImage: string;
   appIcon: string;
   gameRating: number;
+  appDownloads: string;
+  reviewsCount: string;
 }
 
 const HeroV2: React.FC<HeroPropsTypes> = ({
@@ -204,6 +206,8 @@ const HeroV2: React.FC<HeroPropsTypes> = ({
   appIcon,
   bgImage,
   gameRating,
+  appDownloads,
+  reviewsCount,
 }) => {
   const deviceType = useDeviceType();
   const imageSrcTop =
@@ -228,13 +232,13 @@ const HeroV2: React.FC<HeroPropsTypes> = ({
                 <span>{`${gameRating}/5`}</span>
                 <span className={styles.star}>⭐</span>
               </div>
-              <span>297 Reviews</span>
+              <span>{reviewsCount} Reviews</span>
             </div>
 
             <div className={styles.divider}></div>
 
             <div className={styles.downloadBlock}>
-              <div className={styles.ratingTop}>100k+</div>
+              <div className={styles.ratingTop}>{appDownloads}</div>
               <div className={styles.subText}>Downloads</div>
             </div>
             {deviceType === "desktop" && (
@@ -247,24 +251,24 @@ const HeroV2: React.FC<HeroPropsTypes> = ({
               </div>
             )}
           </div>
-        
-        {deviceType === "mobile" && (
-          <div className={styles.apkInfo}>
-            <div className={styles.apkVerifiedRow}>
-              <img
-                src="/images/security.svg"
-                alt="Security Icon"
-                width="20"
-                height="20"
-              />
-              <span>APK Verified File</span>
-            </div>
 
-            <div className={styles.apkPermission}>
-              Manual source permission is needed for install
+          {deviceType === "mobile" && (
+            <div className={styles.apkInfo}>
+              <div className={styles.apkVerifiedRow}>
+                <img
+                  src="/images/security.svg"
+                  alt="Security Icon"
+                  width="20"
+                  height="20"
+                />
+                <span>APK Verified File</span>
+              </div>
+
+              <div className={styles.apkPermission}>
+                Manual source permission is needed for install
+              </div>
             </div>
-          </div>
-        )}
+          )}
         </div>
       </div>
     </div>

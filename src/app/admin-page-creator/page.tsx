@@ -75,6 +75,14 @@ export default function AdminPage() {
   >([]);
   const [newReview, setNewReview] = useState({ name: "", rating: 5, text: "" });
   const [previewOpen, setPreviewOpen] = useState(true);
+  const [appDownloads, setAppDownloads] = useState("");
+  const [reviewsCount, setReviewsCount] = useState("");
+
+  //   edit page section
+  const [editSlug, setEditSlug] = useState("");
+  const [editLoading, setEditLoading] = useState(false);
+  const [editMode, setEditMode] = useState(false);
+  const [editSectionOpen, setEditSectionOpen] = useState(false);
 
   /* ─── HELPERS ─── */
   function slugify(t: string) {
@@ -122,6 +130,8 @@ export default function AdminPage() {
       gameName,
       qrImage,
       onelinkUrl,
+      appDownloads,
+      reviewsCount,
       backgroundImage,
       reviews,
       appStore: {
@@ -153,6 +163,86 @@ export default function AdminPage() {
     }
   }
 
+  //  edit function
+  async function fetchAndLoadForEdit() {
+    if (!editSlug) return;
+    try {
+      setEditLoading(true);
+      setError("");
+      const res = await fetch(`/api/games?slug=${editSlug}`);
+      if (!res.ok) throw new Error();
+      const data = await res.json();
+
+      // Pre-fill all your existing form states
+      setGameName(data.gameName);
+      setOnelinkUrl(data.onelinkUrl);
+      setQrImage(data.qrImage);
+      setBackgroundImage(data.backgroundImage);
+      setReviews(data.reviews ?? []);
+      setVersion(data.slug.endsWith("-v2") ? "v2" : "v1");
+      setAppDownloads(data.appDownloads || "100K+"); //default if missing
+      setReviewsCount(data.reviewsCount || "500"); //default if missing
+
+      // For appStore data, reconstruct a minimal appData object
+      // so your existing preview panel and canPublish check still work
+      setAppData({
+        trackName: data.appStore.trackName,
+        description: data.appStore.description,
+        artworkUrl512: data.appStore.icon,
+        screenshotUrls: data.appStore.screenshots,
+        averageUserRating: data.appStore.appRating,
+        genres: data.appStore.genres,
+      });
+
+      setEditMode(true); // flag so publish button calls PUT instead of POST
+      setEditSectionOpen(false); // collapse the edit search bar once loaded
+    } catch {
+      setError("Could not find a page with that slug. Check and try again.");
+    } finally {
+      setEditLoading(false);
+    }
+  }
+
+  // update slug
+
+  async function updatePage() {
+    const slug = `${slugify(gameName)}-${version}`;
+    const json = {
+      slug,
+      gameName,
+      qrImage,
+      onelinkUrl,
+      appDownloads,
+      reviewsCount,
+      backgroundImage,
+      reviews,
+      appStore: {
+        trackName: appData.trackName,
+        description: appData.description,
+        icon: appData.artworkUrl512,
+        screenshots: appData.screenshotUrls,
+        appRating: appData.averageUserRating,
+        genres: appData.genres,
+      },
+    };
+    try {
+      setError("");
+      setGenerating(true);
+      const res = await fetch("/api/games", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(json),
+      });
+      if (!res.ok) throw new Error();
+      setGeneratedJson(json);
+      setTimeout(() => router.push(`/games/${slug}`), 2500);
+    } catch {
+      setError("Failed to update. Please try again.");
+    } finally {
+      setGenerating(false);
+    }
+  }
+
   function addReview() {
     if (!newReview.name || !newReview.text) return;
     setReviews((prev) => [...prev, newReview]);
@@ -161,7 +251,15 @@ export default function AdminPage() {
 
   /* ─── DERIVED ─── */
   const slug = gameName ? `${slugify(gameName)}-${version}` : null;
-  const canPublish = !!appData && !!gameName && !!qrImage && !!onelinkUrl && !!backgroundImage && reviews.length > 4;
+  const canPublish =
+    !!appData &&
+    !!gameName &&
+    !!qrImage &&
+    !!onelinkUrl &&
+    !!appDownloads &&
+    !!reviewsCount &&
+    !!backgroundImage &&
+    reviews.length > 4;
 
   const steps = [
     { label: "App Store", done: !!appData },
@@ -177,6 +275,83 @@ export default function AdminPage() {
           <div>
             <h1 className={styles.pageTitle}>Landing Page Generator</h1>
           </div>
+          {/* edit section */}
+          {/* ── EDIT EXISTING PAGE ── */}
+          <Card>
+            <CardHeader
+              title="✏️ Edit Existing Page"
+              subtitle={
+                editMode
+                  ? `Editing: ${editSlug}`
+                  : "Load a published page to edit it"
+              }
+              right={
+                <button
+                  className={`${styles.btn} ${styles.btnGhost}`}
+                  onClick={() => setEditSectionOpen((v) => !v)}
+                >
+                  {editSectionOpen ? "Collapse" : "Expand"}
+                  <svg
+                    width="11"
+                    height="11"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    style={{
+                      transform: editSectionOpen ? "rotate(180deg)" : "none",
+                      transition: "transform .2s",
+                    }}
+                  >
+                    <path
+                      d="M6 9l6 6 6-6"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </button>
+              }
+            />
+
+            {editSectionOpen && (
+              <CardBody>
+                <div className={styles.formRow} style={{ flexWrap: "nowrap" }}>
+                  <input
+                    className={styles.input}
+                    placeholder="Enter Game route (e.g. clash-of-legends-v1)"
+                    value={editSlug}
+                    onChange={(e) => setEditSlug(e.target.value)}
+                    onKeyDown={(e) =>
+                      e.key === "Enter" && fetchAndLoadForEdit()
+                    }
+                  />
+                  <button
+                    className={`${styles.btn} ${styles.btnPrimary}`}
+                    onClick={fetchAndLoadForEdit}
+                    disabled={!editSlug || editLoading}
+                  >
+                    {editLoading ? <Spinner /> : "Load"}
+                  </button>
+                </div>
+
+                {editMode && (
+                  <div
+                    style={{
+                      marginTop: 8,
+                      padding: "6px 10px",
+                      background: "#f0fdf4",
+                      borderRadius: 6,
+                      fontSize: 12,
+                      color: "#16a34a",
+                    }}
+                  >
+                    ✓ Page loaded — edit any fields above and click{" "}
+                    <strong>Update Page</strong>
+                  </div>
+                )}
+              </CardBody>
+            )}
+          </Card>
 
           <Card>
             <CardHeader title="① Fetch App Data" />
@@ -271,11 +446,38 @@ export default function AdminPage() {
                   placeholder="https://onelink.me/…"
                 />
               </div>
+
+              <div className={styles.field} style={{ marginBottom: 11 }}>
+                <label className={styles.fieldLabel}>
+                  Enter App downloads stats*
+                </label>
+                <input
+                  className={styles.input}
+                  value={appDownloads}
+                  onChange={(e) => setAppDownloads(e.target.value)}
+                  placeholder="e.g. 10K+, 200K+, 5M+"
+                />
+              </div>
+
+              <div className={styles.field} style={{ marginBottom: 11 }}>
+                <label className={styles.fieldLabel}>
+                  Enter Game Reviews Count*
+                </label>
+                <input
+                  className={styles.input}
+                  value={reviewsCount}
+                  onChange={(e) => setReviewsCount(e.target.value)}
+                  placeholder="e.g. 300, 500, 1K"
+                />
+              </div>
             </CardBody>
           </Card>
 
           <Card>
-            <CardHeader title="③ Assets" />
+            <CardHeader
+              title="③ Assets"
+              subtitle="Upload images in svg/web format"
+            />
             <CardBody>
               <div className={styles.formRow}>
                 <div className={styles.fieldHalf}>
@@ -459,7 +661,7 @@ export default function AdminPage() {
           <div className={styles.publishRow}>
             <button
               className={styles.btnPublish}
-              onClick={generateAndSave}
+              onClick={editMode ? updatePage : generateAndSave}
               disabled={!canPublish || generating}
             >
               {generating ? (
@@ -475,7 +677,13 @@ export default function AdminPage() {
                   />
                 </svg>
               )}
-              {generating ? "Publishing…" : "Generate Landing Page"}
+              {generating
+                ? editMode
+                  ? "Updating…"
+                  : "Publishing…"
+                : editMode
+                  ? "Update Landing Page"
+                  : "Generate Landing Page"}
             </button>
           </div>
         </div>
@@ -648,11 +856,11 @@ export default function AdminPage() {
                   </span>
                 }
               />
-              <CardBody>
+              {/* <CardBody>
                 <pre className={styles.jsonPre}>
                   {JSON.stringify(generatedJson, null, 2)}
                 </pre>
-              </CardBody>
+              </CardBody> */}
             </Card>
           )}
         </div>

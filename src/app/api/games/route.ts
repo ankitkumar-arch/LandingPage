@@ -69,3 +69,31 @@ export async function POST(req: Request) {
     );
   }
 }
+
+export async function GET(req: Request) {
+  try {
+    const { searchParams } = new URL(req.url);
+    const slug = searchParams.get("slug");
+
+    if (!slug) {
+      return NextResponse.json({ error: "Missing slug" }, { status: 400 });
+    }
+
+    const client = await clientPromise;
+    const db = client.db("landing-pages");
+
+    const game = await db.collection("games").findOne({ slug });
+
+    if (!game) {
+      return NextResponse.json({ error: "Not found" }, { status: 404 });
+    }
+
+    return NextResponse.json(game);
+  } catch (err) {
+    console.error("FETCH ERROR:", err);
+    return NextResponse.json(
+      { error: "Failed to fetch game", details: String(err) },
+      { status: 500 }
+    );
+  }
+}

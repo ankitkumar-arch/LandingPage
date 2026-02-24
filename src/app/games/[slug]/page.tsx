@@ -113,7 +113,6 @@ export default async function GamePage({
 
   const formattedRating = Number(game.appStore.appRating?.toFixed(1));
 
-
   return (
     <div className={styles.page}>
       <AnalyticsProvider gtagId="G-1FR83BKXJ1" gtmId="GTM-NCNL72F" />
@@ -130,6 +129,8 @@ export default async function GamePage({
             appIcon={game.appStore.icon}
             bgImage={game.backgroundImage}
             gameRating={formattedRating}
+            appDownloads={game.appDownloads}
+            reviewsCount={game.reviewsCount}
           />
           <Suspense fallback={<Loader />}>
             <DownloadAppButton oneLinkUrl={game.onelinkUrl} />
@@ -161,7 +162,7 @@ export default async function GamePage({
             />
           </div>
           <GameScreenShots screenshotsImages={game.appStore.screenshots} />
-           <FooterWidgets onelinkUrl={game.onelinkUrl} />
+          <FooterWidgets onelinkUrl={game.onelinkUrl} />
 
           <Suspense fallback={<Loader />}>
             <DownloadAppButton oneLinkUrl={game.onelinkUrl} />
