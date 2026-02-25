@@ -17,9 +17,15 @@ interface HeroPropsTypes {
   imageSrcTop: string;
   gameQRImage: string;
   bgImage: string;
+  gameRating?: number;
 }
 
-const Hero: React.FC<HeroPropsTypes> = ({ imageSrcTop, gameQRImage, bgImage }) => {
+const Hero: React.FC<HeroPropsTypes> = ({
+  imageSrcTop,
+  gameQRImage,
+  bgImage,
+  gameRating,
+}) => {
   const deviceType = useDeviceType();
   return (
     <div className={styles.hero_bgImage}>
@@ -58,7 +64,7 @@ const Hero: React.FC<HeroPropsTypes> = ({ imageSrcTop, gameQRImage, bgImage }) =
         )}
       </div>
 
-      <GameStatsBar />
+      <GameStatsBar gameRating={gameRating} />
 
       <div className={styles.bottomSection}>
         <div className={styles.overlayBottomContent}>

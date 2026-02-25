@@ -1,12 +1,15 @@
 import React from "react";
 import styles from "./GameStatsBar.module.scss";
 
-const GameStatsBar = () => {
+interface GameStatsBarProps {
+  gameRating?: number;
+}
+const GameStatsBar: React.FC<GameStatsBarProps> = ({ gameRating }) => {
   return (
     <section className={styles.statsSection}>
       <div className={styles.statsWrapper}>
         <div className={styles.statItem}>
-          <span className={styles.highlight}>4.5★</span>
+          <span className={styles.highlight}>{gameRating}★</span>
           <span className={styles.text}>RATED</span>
         </div>
 

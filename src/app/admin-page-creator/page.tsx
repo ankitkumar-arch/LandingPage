@@ -77,6 +77,7 @@ export default function AdminPage() {
   const [previewOpen, setPreviewOpen] = useState(true);
   const [appDownloads, setAppDownloads] = useState("");
   const [reviewsCount, setReviewsCount] = useState("");
+  const [screenshots, setScreenshots] = useState<string[]>([]);
 
   //   edit page section
   const [editSlug, setEditSlug] = useState("");
@@ -138,7 +139,8 @@ export default function AdminPage() {
         trackName: appData.trackName,
         description: appData.description,
         icon: appData.artworkUrl512,
-        screenshots: appData.screenshotUrls,
+        screenshots:
+          screenshots.length > 0 ? screenshots : appData.screenshotUrls,
         appRating: appData.averageUserRating,
         genres: appData.genres,
       },
@@ -182,6 +184,7 @@ export default function AdminPage() {
       setVersion(data.slug.endsWith("-v2") ? "v2" : "v1");
       setAppDownloads(data.appDownloads || "100K+"); //default if missing
       setReviewsCount(data.reviewsCount || "500"); //default if missing
+      setScreenshots(data.appStore.screenshots ?? []);
 
       // For appStore data, reconstruct a minimal appData object
       // so your existing preview panel and canPublish check still work
@@ -220,7 +223,8 @@ export default function AdminPage() {
         trackName: appData.trackName,
         description: appData.description,
         icon: appData.artworkUrl512,
-        screenshots: appData.screenshotUrls,
+        screenshots:
+          screenshots.length > 0 ? screenshots : appData.screenshotUrls,
         appRating: appData.averageUserRating,
         genres: appData.genres,
       },
@@ -256,8 +260,6 @@ export default function AdminPage() {
     !!gameName &&
     !!qrImage &&
     !!onelinkUrl &&
-    !!appDownloads &&
-    !!reviewsCount &&
     !!backgroundImage &&
     reviews.length > 4;
 
@@ -447,29 +449,33 @@ export default function AdminPage() {
                 />
               </div>
 
-              <div className={styles.field} style={{ marginBottom: 11 }}>
-                <label className={styles.fieldLabel}>
-                  Enter App downloads stats*
-                </label>
-                <input
-                  className={styles.input}
-                  value={appDownloads}
-                  onChange={(e) => setAppDownloads(e.target.value)}
-                  placeholder="e.g. 10K+, 200K+, 5M+"
-                />
-              </div>
+              {version === "v2" && (
+                <div>
+                  <div className={styles.field} style={{ marginBottom: 11 }}>
+                    <label className={styles.fieldLabel}>
+                      Enter App downloads stats
+                    </label>
+                    <input
+                      className={styles.input}
+                      value={appDownloads}
+                      onChange={(e) => setAppDownloads(e.target.value)}
+                      placeholder="e.g. 10K+, 200K+, 5M+"
+                    />
+                  </div>
 
-              <div className={styles.field} style={{ marginBottom: 11 }}>
-                <label className={styles.fieldLabel}>
-                  Enter Game Reviews Count*
-                </label>
-                <input
-                  className={styles.input}
-                  value={reviewsCount}
-                  onChange={(e) => setReviewsCount(e.target.value)}
-                  placeholder="e.g. 300, 500, 1K"
-                />
-              </div>
+                  <div className={styles.field} style={{ marginBottom: 11 }}>
+                    <label className={styles.fieldLabel}>
+                      Enter Game Reviews Count
+                    </label>
+                    <input
+                      className={styles.input}
+                      value={reviewsCount}
+                      onChange={(e) => setReviewsCount(e.target.value)}
+                      placeholder="e.g. 300, 500, 1K"
+                    />
+                  </div>
+                </div>
+              )}
             </CardBody>
           </Card>
 
@@ -536,6 +542,56 @@ export default function AdminPage() {
                   )}
                 </div>
               </div>
+
+              {appData?.screenshotUrls?.length === 0 && (
+                <div>
+                  <div className={styles.field} style={{ marginTop: 11 }}>
+                    <label className={styles.fieldLabel}>
+                      Game Screenshots*
+                    </label>
+                    <input
+                      className={styles.fileInput}
+                      type="file"
+                      accept="image/*"
+                      multiple
+                      onChange={(e) => {
+                        const files = Array.from(e.target.files ?? []);
+                        files.forEach((f) =>
+                          toBase64(f, (b64) =>
+                            setScreenshots((prev) => [...prev, b64]),
+                          ),
+                        );
+                      }}
+                    />
+                    {screenshots.length > 0 && (
+                      <div
+                        className={styles.thumbRow}
+                        style={{ flexWrap: "wrap", gap: 8 }}
+                      >
+                        {screenshots.map((s, i) => (
+                          <div key={i} style={{ position: "relative" }}>
+                            <img
+                              src={s}
+                              className={styles.thumb}
+                              alt={`screenshot ${i + 1}`}
+                            />
+                            <button
+                              className={styles.removeBtn}
+                              onClick={() =>
+                                setScreenshots((prev) =>
+                                  prev.filter((_, j) => j !== i),
+                                )
+                              }
+                            >
+                              ✕
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
             </CardBody>
           </Card>
 

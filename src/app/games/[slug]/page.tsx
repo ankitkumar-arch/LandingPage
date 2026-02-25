@@ -159,6 +159,7 @@ export default async function GamePage({
               imageSrcTop={game.imageSrcTop}
               gameQRImage={game.qrImage}
               bgImage={game.backgroundImage}
+              gameRating={formattedRating}
             />
           </div>
           <GameScreenShots screenshotsImages={game.appStore.screenshots} />
