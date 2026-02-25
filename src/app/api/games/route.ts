@@ -45,27 +45,22 @@ export async function POST(req: Request) {
     const body = await req.json();
 
     if (!body.slug) {
-      return NextResponse.json(
-        { error: "Missing slug" },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "Missing slug" }, { status: 400 });
     }
 
     const client = await clientPromise;
     const db = client.db("landing-pages");
 
-    await db.collection("games").updateOne(
-      { slug: body.slug },
-      { $set: body },
-      { upsert: true }
-    );
+    await db
+      .collection("games")
+      .updateOne({ slug: body.slug }, { $set: body }, { upsert: true });
 
     return NextResponse.json({ success: true });
   } catch (err) {
     console.error("SAVE ERROR:", err);
     return NextResponse.json(
       { error: "Failed to save game", details: String(err) },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -93,7 +88,38 @@ export async function GET(req: Request) {
     console.error("FETCH ERROR:", err);
     return NextResponse.json(
       { error: "Failed to fetch game", details: String(err) },
-      { status: 500 }
+      { status: 500 },
+    );
+  }
+}
+
+export async function PUT(req: Request) {
+  try {
+    const body = await req.json();
+
+    if (!body.slug) {
+      return NextResponse.json({ error: "Missing slug" }, { status: 400 });
+    }
+
+    const client = await clientPromise;
+    const db = client.db("landing-pages");
+
+    const result = await db.collection("games").updateOne(
+      { slug: body.slug },
+      { $set: body },
+      // no upsert here — we only want to update existing pages
+    );
+
+    if (result.matchedCount === 0) {
+      return NextResponse.json({ error: "Page not found" }, { status: 404 });
+    }
+
+    return NextResponse.json({ success: true });
+  } catch (err) {
+    console.error("UPDATE ERROR:", err);
+    return NextResponse.json(
+      { error: "Failed to update game", details: String(err) },
+      { status: 500 },
     );
   }
 }
