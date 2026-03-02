@@ -40,7 +40,8 @@ const PlayButton: React.FC<PlayButtonProps> = ({
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        eventName: "start_playing_hero",
+        eventName: "start_playing_hero_new",
+        gameName: game,
       }),
     });
     const data = await res.json();

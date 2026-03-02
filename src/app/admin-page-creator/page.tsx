@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import styles from "@/styles/AdminPage.module.scss";
 import LogbookModal from "@/components/Logbook/LogbookModal";
+import MetaConfigCard from "@/components/MetaConfig/MetaConfigCard";
 
 /* ─── ATOMS ─── */
 const Card = ({
@@ -732,6 +733,8 @@ export default function AdminPage() {
               )}
             </CardBody>
           </Card>
+
+          <MetaConfigCard gameName={gameName} />
 
           {/* PUBLISH */}
           <div className={styles.publishRow}>

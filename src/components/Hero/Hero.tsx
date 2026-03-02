@@ -18,6 +18,8 @@ interface HeroPropsTypes {
   gameQRImage: string;
   bgImage: string;
   gameRating?: number;
+  gameName: string;
+  gameOnelink: string;
 }
 
 const Hero: React.FC<HeroPropsTypes> = ({
@@ -25,8 +27,11 @@ const Hero: React.FC<HeroPropsTypes> = ({
   gameQRImage,
   bgImage,
   gameRating,
+  gameName,
+  gameOnelink,
 }) => {
   const deviceType = useDeviceType();
+
   return (
     <div className={styles.hero_bgImage}>
       <div className={styles.topSection}>
@@ -42,9 +47,9 @@ const Hero: React.FC<HeroPropsTypes> = ({
           <Suspense fallback={<Loader />}>
             <PlayButton
               location="hero_section"
-              game="Solitaire-Skillz"
+              game={gameName}
               text="Play Now"
-              oneLinkUrl="https://skillz.onelink.me/VcoS/SSKWeb"
+              oneLinkUrl={gameOnelink}
             />
           </Suspense>
 

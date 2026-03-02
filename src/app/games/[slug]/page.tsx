@@ -160,6 +160,8 @@ export default async function GamePage({
               gameQRImage={game.qrImage}
               bgImage={game.backgroundImage}
               gameRating={formattedRating}
+              gameName={game.gameName}
+              gameOnelink={game.onelinkUrl}
             />
           </div>
           <GameScreenShots screenshotsImages={game.appStore.screenshots} />
