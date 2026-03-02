@@ -76,6 +76,7 @@ import GameScreenShots from "@/components/GameScreenShots/GameScreenShots";
 import AnalyticsProvider from "@/utils/AnalyticsProvider";
 import clientPromise from "@/lib/mongodb";
 import FooterWidgets from "@/components/FooterWidgets/FooterWidgets";
+import Script from "next/script";
 
 export const dynamic = "force-dynamic";
 
@@ -116,10 +117,10 @@ export default async function GamePage({
   return (
     <div className={styles.page}>
       <AnalyticsProvider gtagId="G-1FR83BKXJ1" gtmId="GTM-NCNL72F" />
-      <script
+      <Script
         defer
         src="https://onelinksmartscript.appsflyer.com/onelink-smart-script-latest.js"
-      ></script>
+      ></Script>
 
       {version === "v2" && (
         <main className={styles.main}>
