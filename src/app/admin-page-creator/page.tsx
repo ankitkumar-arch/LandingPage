@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import styles from "@/styles/AdminPage.module.scss";
+import LogbookModal from "@/components/Logbook/LogbookModal";
 
 /* ─── ATOMS ─── */
 const Card = ({
@@ -84,6 +85,8 @@ export default function AdminPage() {
   const [editLoading, setEditLoading] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [editSectionOpen, setEditSectionOpen] = useState(false);
+
+  const [logbookOpen, setLogbookOpen] = useState(false);
 
   /* ─── HELPERS ─── */
   function slugify(t: string) {
@@ -274,9 +277,26 @@ export default function AdminPage() {
     <>
       <div className={styles.pageWrapper}>
         <div className={styles.formColumn}>
-          <div>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              marginBottom: 0,
+            }}
+          >
             <h1 className={styles.pageTitle}>Landing Page Generator</h1>
+            <button
+              className={`${styles.btn} ${styles.btnGhost}`}
+              onClick={() => setLogbookOpen(true)}
+            >
+              📋 Logbook
+            </button>
           </div>
+
+          {logbookOpen && (
+            <LogbookModal onClose={() => setLogbookOpen(false)} />
+          )}
           {/* edit section */}
           {/* ── EDIT EXISTING PAGE ── */}
           <Card>

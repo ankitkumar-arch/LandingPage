@@ -68,8 +68,19 @@ export async function POST(req: Request) {
 export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
-    const slug = searchParams.get("slug");
+    const all = searchParams.get("all");
+    if (all === "true") {
+      const client = await clientPromise;
+      const db = client.db("landing-pages");
+      const games = await db
+        .collection("games")
+        .find({}, { projection: { _id: 0, slug: 1, gameName: 1 } })
+        .sort({ _id: -1 }) // newest first
+        .toArray();
+      return NextResponse.json(games);
+    }
 
+    const slug = searchParams.get("slug");
     if (!slug) {
       return NextResponse.json({ error: "Missing slug" }, { status: 400 });
     }
