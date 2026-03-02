@@ -80,6 +80,7 @@ export default function AdminPage() {
   const [appDownloads, setAppDownloads] = useState("");
   const [reviewsCount, setReviewsCount] = useState("");
   const [screenshots, setScreenshots] = useState<string[]>([]);
+  const [description, setDescription] = useState("");
 
   //   edit page section
   const [editSlug, setEditSlug] = useState("");
@@ -117,6 +118,7 @@ export default function AdminPage() {
       const data = await res.json();
       if (!data.results?.length) throw new Error();
       setAppData(data.results[0]);
+      setDescription(data.results[0].description ?? "");
     } catch {
       setError("Could not find app. Check the App ID and try again.");
     } finally {
@@ -141,7 +143,7 @@ export default function AdminPage() {
       reviews,
       appStore: {
         trackName: appData.trackName,
-        description: appData.description,
+        description: description,
         icon: appData.artworkUrl512,
         screenshots:
           screenshots.length > 0 ? screenshots : appData.screenshotUrls,
@@ -189,6 +191,7 @@ export default function AdminPage() {
       setAppDownloads(data.appDownloads || "100K+"); //default if missing
       setReviewsCount(data.reviewsCount || "500"); //default if missing
       setScreenshots(data.appStore.screenshots ?? []);
+      setDescription(data.appStore.description ?? "");
 
       // For appStore data, reconstruct a minimal appData object
       // so your existing preview panel and canPublish check still work
@@ -199,6 +202,7 @@ export default function AdminPage() {
         screenshotUrls: data.appStore.screenshots,
         averageUserRating: data.appStore.appRating,
         genres: data.appStore.genres,
+        gameDescription: data.description,
       });
 
       setEditMode(true); // flag so publish button calls PUT instead of POST
@@ -225,7 +229,7 @@ export default function AdminPage() {
       reviews,
       appStore: {
         trackName: appData.trackName,
-        description: appData.description,
+        description: description,
         icon: appData.artworkUrl512,
         screenshots:
           screenshots.length > 0 ? screenshots : appData.screenshotUrls,
@@ -497,6 +501,17 @@ export default function AdminPage() {
                   </div>
                 </div>
               )}
+
+              <div className={styles.field} style={{ marginBottom: 11 }}>
+                <label className={styles.fieldLabel}>Game Description</label>
+                <textarea
+                  className={styles.textarea}
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  placeholder="App description will auto-fill from App Store…"
+                  style={{ height: 120 }}
+                />
+              </div>
             </CardBody>
           </Card>
 

@@ -14,7 +14,7 @@
 //     //     return res.status(405).json({error: "only post requests allowed"});
 //     // }
 //     const clientIP = req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip") || "";
-   
+
 //     try {
 //         const {eventName, userData, userAgent, fbc} = await req.json();
 //         console.log("token", process.env.FB_PIXEL_ID_BOB);
@@ -32,7 +32,7 @@
 //                         client_ip_address: clientIP,
 //                         client_user_agent: userAgent,
 //                         fbc: fbc,
-                        
+
 //                     },
 //                     action_source: "website",
 //                 },],
@@ -48,7 +48,6 @@
 //     }
 // }
 
-
 import crypto from "crypto";
 import clientPromise from "@/lib/mongodb";
 
@@ -63,7 +62,7 @@ function decrypt(encryptedToken: string, iv: string): string {
   const decipher = crypto.createDecipheriv(
     ALGORITHM,
     Buffer.from(ENCRYPTION_KEY, "utf8"),
-    Buffer.from(iv, "hex")
+    Buffer.from(iv, "hex"),
   );
   const decrypted = Buffer.concat([
     decipher.update(Buffer.from(encryptedToken, "hex")),
@@ -77,10 +76,7 @@ export async function POST(req: Request) {
     const { eventName, gameName, userData } = await req.json();
 
     if (!gameName) {
-      return Response.json(
-        { error: "gameName is required" },
-        { status: 400 }
-      );
+      return Response.json({ error: "gameName is required" }, { status: 400 });
     }
 
     // Fetch pixel config for this game from MongoDB
@@ -91,13 +87,18 @@ export async function POST(req: Request) {
     if (!config) {
       return Response.json(
         { error: `No meta config found for game: ${gameName}` },
-        { status: 404 }
+        { status: 404 },
       );
     }
 
     const pixelId = config.pixelId;
     const capiToken = decrypt(config.encryptedToken, config.iv);
 
+    const userAgent = req.headers.get("user-agent") || "";
+    const forwarded = req.headers.get("x-forwarded-for");
+    const ip = forwarded ? forwarded.split(",")[0] : "127.0.0.1";
+
+    // Exactly matching your working manual code structure
     const response = await fetch(
       `https://graph.facebook.com/v18.0/${pixelId}/events?access_token=${capiToken}`,
       {
@@ -108,16 +109,15 @@ export async function POST(req: Request) {
             {
               event_name: eventName,
               event_time: Math.floor(Date.now() / 1000),
-              event_id: `${Date.now()}-${Math.random().toString(36).slice(2)}`,
               action_source: "website",
               user_data: {
-                em: userData?.email ? [hash(userData.email)] : [],
+                client_ip_address: ip,
+                client_user_agent: userAgent,
               },
             },
           ],
-          test_event_code: process.env.META_TEST_EVENT_CODE, // set in .env, remove in prod
         }),
-      }
+      },
     );
 
     const result = await response.json();

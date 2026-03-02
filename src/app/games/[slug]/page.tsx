@@ -77,6 +77,7 @@ import AnalyticsProvider from "@/utils/AnalyticsProvider";
 import clientPromise from "@/lib/mongodb";
 import FooterWidgets from "@/components/FooterWidgets/FooterWidgets";
 import Script from "next/script";
+import FBPixel from "@/lib/FBPixel";
 
 export const dynamic = "force-dynamic";
 
@@ -90,6 +91,14 @@ export default async function GamePage({
   const db = client.db("landing-pages");
 
   const game = await db.collection("games").findOne({ slug: slug });
+  if (!game) {
+    notFound();
+  }
+  const metaConfig = await db.collection("meta_config").findOne(
+    { gameName: game.gameName },
+    { projection: { _id: 0, pixelId: 1 } }, // only fetch pixelId, never expose token
+  );
+  const pixelId = metaConfig?.pixelId ?? "";
 
   if (!game) {
     notFound();
@@ -113,10 +122,10 @@ export default async function GamePage({
   }
 
   const formattedRating = Number(game.appStore.appRating?.toFixed(1));
-
   return (
     <div className={styles.page}>
       <AnalyticsProvider gtagId="G-1FR83BKXJ1" gtmId="GTM-NCNL72F" />
+      <FBPixel pixelId={pixelId} />
       <Script
         defer
         src="https://onelinksmartscript.appsflyer.com/onelink-smart-script-latest.js"
